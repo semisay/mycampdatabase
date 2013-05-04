@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextField;
 
 /**
  *
@@ -98,7 +97,6 @@ public class Client extends javax.swing.JFrame {
         addEmployee = new javax.swing.JButton();
         employeeScrollPane = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
-        updateEmployee = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
         Surname = new javax.swing.JTextField();
@@ -161,13 +159,6 @@ public class Client extends javax.swing.JFrame {
         });
         employeeScrollPane.setViewportView(employeeTable);
 
-        updateEmployee.setText("Update");
-        updateEmployee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateEmployeeActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("ID");
 
         jLabel2.setText("Surname");
@@ -204,7 +195,6 @@ public class Client extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(Surname, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(employeeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1016, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(employeeTabLayout.createSequentialGroup()
                         .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -240,11 +230,10 @@ public class Client extends javax.swing.JFrame {
                                 .addComponent(DOB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(Passport_Number, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(Issuing_authority, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(47, 47, 47)
-                        .addComponent(updateEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(addEmployee)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(505, Short.MAX_VALUE))
+            .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
         );
         employeeTabLayout.setVerticalGroup(
             employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,7 +280,6 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(Patronymic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Issuing_authority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateEmployee)
                     .addComponent(addEmployee))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
@@ -439,22 +427,6 @@ public class Client extends javax.swing.JFrame {
         
     }//GEN-LAST:event_addEmployeeActionPerformed
 
-    private void updateEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEmployeeActionPerformed
-        
-        Thread employee = new Thread(new Employee(con,employeeTable,
-                ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
-                Issuing_authority, Date_of_issue, Education, Post, Wages,false));
-        employee.start();
-        try 
-        {
-            employee.join();
-        } 
-        catch (InterruptedException ex) 
-        {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }       // TODO add your handling code here:
-    }//GEN-LAST:event_updateEmployeeActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -529,6 +501,5 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JPanel orphanageTab;
     private javax.swing.JPanel parentTab;
     private javax.swing.JPanel squadTab;
-    private javax.swing.JButton updateEmployee;
     // End of variables declaration//GEN-END:variables
 }

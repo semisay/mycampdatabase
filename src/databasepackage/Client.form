@@ -58,7 +58,6 @@
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="Surname" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="employeeScrollPane" alignment="0" min="-2" pref="1016" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
@@ -106,14 +105,13 @@
                                       <Component id="Issuing_authority" alignment="1" min="-2" pref="118" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                              <Component id="updateEmployee" min="-2" pref="84" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="addEmployee" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="505" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="employeeScrollPane" alignment="0" pref="1016" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -171,7 +169,6 @@
                           <Component id="Patronymic" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Issuing_authority" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Wages" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="updateEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="addEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -285,14 +282,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="updateEmployee">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Update"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateEmployeeActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="ID"/>

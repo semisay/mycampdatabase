@@ -66,7 +66,7 @@ public class Employee implements Runnable
             if(AddDate)
             {
                 statement.executeUpdate("INSERT INTO employee (ID, surname, name, patronymic, DOB, passport_series, passport_number, issuing_authority, date_of_issue, education, post, wages) " + 
-                "VALUES (" + ", '" + ID.getText() + "', "
+                "VALUES (" + ID.getText() + ", "
                            + " '" + Surname.getText() + "', " 
                            + " '" + Name.getText() + "', "
                            + " '" + Patronymic.getText() + "', "
@@ -78,13 +78,13 @@ public class Employee implements Runnable
                            + " '" + Education.getText() + "', "
                            + " '" + Post.getText() + "', "
                            + Wages.getText() + ")");
-                String query = "select * from employee having ID = " + String.valueOf(employeeTable.getRowCount()) + 1;
+                String query = "select * from employee having ID = " + ID.getText();
                 rs = statement.executeQuery(query);
                 int i = employeeTable.getRowCount();
                 DefaultTableModel myModel = (DefaultTableModel) employeeTable.getModel();
+                myModel.addRow(new String[1]);
                 while (rs.next()) 
                 {
-                    myModel.addRow(new String[1]);
                     employeeTable.setValueAt(rs.getInt(1), i, 0);
                     employeeTable.setValueAt(rs.getString(2), i, 1);
                     employeeTable.setValueAt(rs.getString(3), i, 2);
