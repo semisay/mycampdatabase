@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -18,15 +19,42 @@ public class Employee implements Runnable
 {
     private Connection con;
     private JTable employeeTable;
-    private JTable addEmployeeTable;
     private boolean AddDate;
+    private JTextField ID;
+    private JTextField Surname;
+    private JTextField Name;
+    private JTextField Patronymic;
+    private JTextField DOB;
+    private JTextField Passport_series;
+    private JTextField Passport_number;
+    private JTextField Issuing_authority;
+    private JTextField Date_of_issue;
+    private JTextField Education;
+    private JTextField Post;
+    private JTextField Wages;
     
-    Employee(Connection connection,JTable emplTable, JTable addEmplTable, boolean fl)
+    Employee(Connection connection,JTable emplTable, JTextField id, 
+            JTextField surname, JTextField name,
+            JTextField patronymic, JTextField dob, JTextField passport_series,
+            JTextField passport_number, JTextField issuing_authority,
+            JTextField date_of_issuing, JTextField education,
+            JTextField post, JTextField wages, boolean fl)
     {
         con = connection;
         employeeTable = emplTable;
         AddDate = fl;
-        addEmployeeTable = addEmplTable;
+        ID = id;
+        Surname = surname;
+        Name = name;
+        Patronymic = patronymic;
+        DOB = dob;
+        Passport_series = passport_series;
+        Passport_number = passport_number;
+        Issuing_authority = issuing_authority;
+        Date_of_issue = date_of_issuing;
+        Education = education;
+        Post = post;
+        Wages = wages;
     }
     @Override
     public void run() 
@@ -38,18 +66,18 @@ public class Employee implements Runnable
             if(AddDate)
             {
                 statement.executeUpdate("INSERT INTO employee (ID, surname, name, patronymic, DOB, passport_series, passport_number, issuing_authority, date_of_issue, education, post, wages) " + 
-                "VALUES (" + String.valueOf(employeeTable.getRowCount() + 1)
-                         + ", '" + (String)addEmployeeTable.getValueAt(0,0) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,1) + "', " 
-                         + " '" + (String)addEmployeeTable.getValueAt(0,2) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,3) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,4) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,5) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,6) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,7) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,8) + "', "
-                         + " '" + (String)addEmployeeTable.getValueAt(0,9) + "', "
-                         + (String)addEmployeeTable.getValueAt(0,10) + ")");
+                "VALUES (" + ", '" + ID.getText() + "', "
+                           + " '" + Surname.getText() + "', " 
+                           + " '" + Name.getText() + "', "
+                           + " '" + Patronymic.getText() + "', "
+                           + " '" + DOB.getText() + "', "
+                           + " '" + Passport_series.getText() + "', "
+                           + " '" + Passport_number.getText() + "', "
+                           + " '" + Issuing_authority.getText() + "', "
+                           + " '" + Date_of_issue.getText() + "', "
+                           + " '" + Education.getText() + "', "
+                           + " '" + Post.getText() + "', "
+                           + Wages.getText() + ")");
                 String query = "select * from employee having ID = " + String.valueOf(employeeTable.getRowCount()) + 1;
                 rs = statement.executeQuery(query);
                 int i = employeeTable.getRowCount();

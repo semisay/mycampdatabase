@@ -6,16 +6,11 @@ package databasepackage;
 
 import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.CellEditor;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.table.TableCellEditor;
+import javax.swing.JTextField;
 
 /**
  *
@@ -46,21 +41,6 @@ public class Client extends javax.swing.JFrame {
         }
         this.setBounds(x, y, this.getWidth(), this.getHeight());
         getConnection();
-        /*TableCellEditor cell = addEmployeeTable.getCellEditor();
-        cell.addCellEditorListener(new CellEditorListener()
-        {
-            @Override
-            public void editingStopped(ChangeEvent e) 
-            {
-                System.out.println("Stop");
-            }
-            @Override
-            public void editingCanceled(ChangeEvent e) 
-            {
-                System.out.println("Cancel");
-            }
-        });
-        addEmployeeTable.setCellEditor(cell);*/
     }
     private void getConnection()
     {
@@ -75,7 +55,9 @@ public class Client extends javax.swing.JFrame {
                 con = (Connection) DriverManager.getConnection(url, name, password);
                 logger = logger + new java.util.Date().toString() + ":\n";
                 logger = logger + "Connected\n";
-                Thread employee = new Thread(new Employee(con,employeeTable,addEmployeeTable,false));
+                Thread employee = new Thread(new Employee(con,employeeTable,
+                ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
+                Issuing_authority, Date_of_issue, Education, Post, Wages,false));
                 employee.start();
                 try 
                 {
@@ -117,8 +99,30 @@ public class Client extends javax.swing.JFrame {
         employeeScrollPane = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
         updateEmployee = new javax.swing.JButton();
-        addEmployeeScrollPane = new javax.swing.JScrollPane();
-        addEmployeeTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        ID = new javax.swing.JTextField();
+        Surname = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        Name = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        Patronymic = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        DOB = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        Passport_Series = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        Passport_Number = new javax.swing.JTextField();
+        Issuing_authority = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        Date_of_issue = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        Education = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        Post = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        Wages = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         inventoryTab = new javax.swing.JPanel();
         eventTab = new javax.swing.JPanel();
         squadTab = new javax.swing.JPanel();
@@ -133,7 +137,6 @@ public class Client extends javax.swing.JFrame {
         setTitle("myCamp");
 
         addEmployee.setText("addEmployee");
-        addEmployee.setEnabled(false);
         addEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEmployeeActionPerformed(evt);
@@ -165,38 +168,133 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
-        addEmployeeTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Surname", "Name", "Patronymic", "DOB", "Passport Series", "Passport Number", "Issuing Authority", "Date of Issue", "Education", "Post", "Wages"
-            }
-        ));
-        addEmployeeScrollPane.setViewportView(addEmployeeTable);
+        jLabel1.setText("ID");
+
+        jLabel2.setText("Surname");
+
+        jLabel3.setText("Name");
+
+        jLabel4.setText("Patronymic");
+
+        jLabel5.setText("DOB");
+
+        jLabel6.setText("Passport Series");
+
+        jLabel7.setText("Passport Number");
+
+        jLabel8.setText("Issuing authority");
+
+        jLabel9.setText("Date of issue");
+
+        jLabel10.setText("Education");
+
+        jLabel11.setText("Post");
+
+        jLabel12.setText("Wages");
 
         javax.swing.GroupLayout employeeTabLayout = new javax.swing.GroupLayout(employeeTab);
         employeeTab.setLayout(employeeTabLayout);
         employeeTabLayout.setHorizontalGroup(
             employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE)
             .addGroup(employeeTabLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(updateEmployee)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addEmployee))
-            .addComponent(addEmployeeScrollPane)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(ID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Surname, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(employeeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1016, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(employeeTabLayout.createSequentialGroup()
+                        .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Name, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                                .addComponent(Patronymic))
+                            .addComponent(jLabel4))
+                        .addGap(23, 23, 23)
+                        .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(employeeTabLayout.createSequentialGroup()
+                                    .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(employeeTabLayout.createSequentialGroup()
+                                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addGap(57, 57, 57))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, employeeTabLayout.createSequentialGroup()
+                                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                    .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel12)
+                                        .addComponent(Post, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel11)
+                                        .addComponent(Education, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel10)
+                                        .addComponent(Date_of_issue, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel9))))
+                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(Passport_Series, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(DOB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Passport_Number, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Issuing_authority, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(47, 47, 47)
+                        .addComponent(updateEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(addEmployee)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         employeeTabLayout.setVerticalGroup(
             employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(employeeTabLayout.createSequentialGroup()
-                .addComponent(addEmployeeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(DOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Date_of_issue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addEmployee)
-                    .addComponent(updateEmployee))
+                    .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel10))
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(employeeScrollPane))
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Surname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Passport_Series, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Education, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Passport_Number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Post, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Patronymic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Issuing_authority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateEmployee)
+                    .addComponent(addEmployee))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Employee", employeeTab);
@@ -205,7 +303,7 @@ public class Client extends javax.swing.JFrame {
         inventoryTab.setLayout(inventoryTabLayout);
         inventoryTabLayout.setHorizontalGroup(
             inventoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         inventoryTabLayout.setVerticalGroup(
             inventoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +316,7 @@ public class Client extends javax.swing.JFrame {
         eventTab.setLayout(eventTabLayout);
         eventTabLayout.setHorizontalGroup(
             eventTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         eventTabLayout.setVerticalGroup(
             eventTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +329,7 @@ public class Client extends javax.swing.JFrame {
         squadTab.setLayout(squadTabLayout);
         squadTabLayout.setHorizontalGroup(
             squadTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         squadTabLayout.setVerticalGroup(
             squadTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +342,7 @@ public class Client extends javax.swing.JFrame {
         childTab.setLayout(childTabLayout);
         childTabLayout.setHorizontalGroup(
             childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         childTabLayout.setVerticalGroup(
             childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +355,7 @@ public class Client extends javax.swing.JFrame {
         parentTab.setLayout(parentTabLayout);
         parentTabLayout.setHorizontalGroup(
             parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         parentTabLayout.setVerticalGroup(
             parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +368,7 @@ public class Client extends javax.swing.JFrame {
         orphanageTab.setLayout(orphanageTabLayout);
         orphanageTabLayout.setHorizontalGroup(
             orphanageTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1016, Short.MAX_VALUE)
         );
         orphanageTabLayout.setVerticalGroup(
             orphanageTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +386,7 @@ public class Client extends javax.swing.JFrame {
         logTab.setLayout(logTabLayout);
         logTabLayout.setHorizontalGroup(
             logTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE)
+            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
         );
         logTabLayout.setVerticalGroup(
             logTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,7 +399,7 @@ public class Client extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainTabbedPane)
+            .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +412,9 @@ public class Client extends javax.swing.JFrame {
     private void addEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeActionPerformed
         
         
-        Thread employee = new Thread(new Employee(con,employeeTable,addEmployeeTable,true));
+        Thread employee = new Thread(new Employee(con,employeeTable,
+                ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
+                Issuing_authority, Date_of_issue, Education, Post, Wages,true));
         employee.start();
         try 
         {
@@ -324,16 +424,26 @@ public class Client extends javax.swing.JFrame {
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(int i = 0; i < 11; i++)
-        {
-            addEmployeeTable.setValueAt("", 0, i);
-        }
+        ID.setText("");
+        Surname.setText("");
+        Name.setText("");
+        Patronymic.setText("");
+        DOB.setText("");
+        Passport_Series.setText("");
+        Passport_Number.setText("");
+        Issuing_authority.setText("");
+        Date_of_issue.setText("");
+        Education.setText("");
+        Post.setText("");
+        Wages.setText("");
         
     }//GEN-LAST:event_addEmployeeActionPerformed
 
     private void updateEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEmployeeActionPerformed
         
-        Thread employee = new Thread(new Employee(con,employeeTable,addEmployeeTable,false));
+        Thread employee = new Thread(new Employee(con,employeeTable,
+                ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
+                Issuing_authority, Date_of_issue, Education, Post, Wages,false));
         employee.start();
         try 
         {
@@ -381,15 +491,37 @@ public class Client extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField DOB;
+    private javax.swing.JTextField Date_of_issue;
+    private javax.swing.JTextField Education;
+    private javax.swing.JTextField ID;
+    private javax.swing.JTextField Issuing_authority;
+    private javax.swing.JTextField Name;
+    private javax.swing.JTextField Passport_Number;
+    private javax.swing.JTextField Passport_Series;
+    private javax.swing.JTextField Patronymic;
+    private javax.swing.JTextField Post;
+    private javax.swing.JTextField Surname;
+    private javax.swing.JTextField Wages;
     private javax.swing.JButton addEmployee;
-    private javax.swing.JScrollPane addEmployeeScrollPane;
-    private javax.swing.JTable addEmployeeTable;
     private javax.swing.JPanel childTab;
     private javax.swing.JScrollPane employeeScrollPane;
     private javax.swing.JPanel employeeTab;
     private javax.swing.JTable employeeTable;
     private javax.swing.JPanel eventTab;
     private javax.swing.JPanel inventoryTab;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextArea log;
     private javax.swing.JScrollPane logScrollPane;
     private javax.swing.JPanel logTab;
