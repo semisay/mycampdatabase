@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package databasepackage;
 
 import com.mysql.jdbc.Connection;
@@ -39,8 +35,6 @@ public class Client extends javax.swing.JFrame {
             y = 0;
         }
         this.setBounds(x, y, this.getWidth(), this.getHeight());
-        responsibleforTextArea.setLineWrap(true);
-        responsibleforTextArea.setWrapStyleWord(true);
         getConnection();
     }
     private void getConnection()
@@ -60,7 +54,7 @@ public class Client extends javax.swing.JFrame {
                 ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
                 Issuing_authority, Date_of_issue, Education, Post, Wages,false));
                 Thread inventory = new Thread(new Inventory(con,nameInventory,countInventory,
-                        responsibleComboBox,responsibleforTextArea, inventoryTable,false));
+                        responsibleComboBox, inventoryTable,false));
                 inventory.start();
                 employee.start();
                 try 
@@ -137,9 +131,6 @@ public class Client extends javax.swing.JFrame {
         addInventory = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         inventoryTable = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        responsibleforTextArea = new javax.swing.JTextArea();
-        jLabel16 = new javax.swing.JLabel();
         eventTab = new javax.swing.JPanel();
         squadTab = new javax.swing.JPanel();
         childTab = new javax.swing.JPanel();
@@ -325,16 +316,10 @@ public class Client extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Count"
+                "Name", "Count", "Responsible"
             }
         ));
         jScrollPane1.setViewportView(inventoryTable);
-
-        responsibleforTextArea.setColumns(20);
-        responsibleforTextArea.setRows(5);
-        jScrollPane2.setViewportView(responsibleforTextArea);
-
-        jLabel16.setText("Responsible for this inventory");
 
         javax.swing.GroupLayout inventoryTabLayout = new javax.swing.GroupLayout(inventoryTab);
         inventoryTab.setLayout(inventoryTabLayout);
@@ -343,12 +328,8 @@ public class Client extends javax.swing.JFrame {
             .addGroup(inventoryTabLayout.createSequentialGroup()
                 .addGroup(inventoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(inventoryTabLayout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(addInventory)))
-                .addGap(105, 105, 105)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(addInventory))
+                .addGap(0, 564, Short.MAX_VALUE))
             .addGroup(inventoryTabLayout.createSequentialGroup()
                 .addGroup(inventoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(inventoryTabLayout.createSequentialGroup()
@@ -365,9 +346,7 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(inventoryTabLayout.createSequentialGroup()
                         .addComponent(responsibleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel16)
-                        .addGap(0, 303, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(13, 13, 13))
         );
         inventoryTabLayout.setVerticalGroup(
@@ -383,14 +362,9 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(nameInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(countInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(responsibleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addInventory)
-                    .addComponent(jLabel16))
+                    .addComponent(addInventory))
                 .addGap(18, 18, 18)
-                .addGroup(inventoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
-                    .addGroup(inventoryTabLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Inventory", inventoryTab);
@@ -507,6 +481,7 @@ public class Client extends javax.swing.JFrame {
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+        responsibleComboBox.addItem(ID.getText()+"."+Surname.getText());
         ID.setText("");
         Surname.setText("");
         Name.setText("");
@@ -524,7 +499,7 @@ public class Client extends javax.swing.JFrame {
 
     private void addInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInventoryActionPerformed
         Thread inventory = new Thread(new Inventory(con,nameInventory,countInventory,
-                        responsibleComboBox,responsibleforTextArea, inventoryTable,true));
+                        responsibleComboBox, inventoryTable,true));
         inventory.start();
     }//GEN-LAST:event_addInventoryActionPerformed
 
@@ -593,7 +568,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -603,7 +577,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea log;
     private javax.swing.JScrollPane logScrollPane;
     private javax.swing.JPanel logTab;
@@ -612,7 +585,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JPanel orphanageTab;
     private javax.swing.JPanel parentTab;
     private javax.swing.JComboBox responsibleComboBox;
-    private javax.swing.JTextArea responsibleforTextArea;
     private javax.swing.JPanel squadTab;
     // End of variables declaration//GEN-END:variables
 }
