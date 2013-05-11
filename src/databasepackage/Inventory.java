@@ -61,8 +61,6 @@ public class Inventory implements Runnable
                     inventoryTable.setValueAt(rs.getInt(3), i, 2);
                     i++;
                 }
-                Name.setText("");
-                Count.setText("");
             }
             else
             {
