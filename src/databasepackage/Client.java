@@ -57,15 +57,6 @@ public class Client extends javax.swing.JFrame {
                         responsibleComboBox, inventoryTable,false));
                 inventory.start();
                 employee.start();
-                try 
-                {
-                    employee.join();
-                    inventory.join();
-                } 
-                catch (InterruptedException ex) 
-                {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 logger = logger + new java.util.Date().toString() + ":\n";
                 logger = logger + "Disconnected\n";
             } 

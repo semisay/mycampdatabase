@@ -36,23 +36,19 @@ public class Inventory implements Runnable
         {
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
-            String query = "select ID,Surname from employee";
-            rs = statement.executeQuery(query);
-            while(rs.next())
-            {
-                ResponsibleList.addItem(rs.getInt(1)+"."+rs.getString(2));
-            }
+            String query = "";
             if(addDate)
             {
                 int i = 0;
                 String id = "";
+                System.out.println(ResponsibleList.getSelectedItem());
                 while(((String)ResponsibleList.getSelectedItem()).charAt(i) != '.' )
                 {
                     id = id + ((String)ResponsibleList.getSelectedItem()).charAt(i);
                     i++;
                 }
                 statement.executeUpdate("INSERT INTO inventory (name,count,employee_ID)"
-                        + "VALUES ('" + Name.getText() + "'," + Count.getText() + "," + String.valueOf(i)+")");
+                        + "VALUES ('" + Name.getText() + "'," + Count.getText() + "," + id+")");
                 query = "select * from inventory having name = '" + Name.getText() + "'";
                 rs = statement.executeQuery(query);
                 i = inventoryTable.getRowCount();
@@ -70,6 +66,12 @@ public class Inventory implements Runnable
             }
             else
             {
+                query = "select ID,Surname from employee";
+                rs = statement.executeQuery(query);
+                while(rs.next())
+                {
+                    ResponsibleList.addItem(rs.getInt(1)+"."+rs.getString(2));
+                }
                 query = "select * from inventory";
                 rs = statement.executeQuery(query);
                 int i = 0;
