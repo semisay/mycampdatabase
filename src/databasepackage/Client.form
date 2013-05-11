@@ -637,7 +637,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanel1" min="-2" pref="305" max="-2" attributes="0"/>
+                          <Component id="jPanel1" min="-2" pref="312" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -850,7 +850,7 @@
                           <Component id="jScrollPane6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="addInventoryForEvent" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="29" max="32767" attributes="0"/>
+                          <EmptySpace pref="36" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -872,6 +872,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Add inventory for the event"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addInventoryForEventActionPerformed"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane6">
                   <AuxValues>
@@ -898,11 +901,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Delete inventory"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteInventoryActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="selectInventory">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Select inventory"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectInventoryActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -913,7 +922,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextArea1">
+                <Component class="javax.swing.JTextArea" name="inventoryForEvent">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>

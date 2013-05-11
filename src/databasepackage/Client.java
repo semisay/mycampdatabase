@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +23,7 @@ public class Client extends javax.swing.JFrame {
     private static String name = "root";
     private static String password = "lager";
     private Connection con;
+    private DefaultListModel listModel;
     
     public Client() 
     {
@@ -39,6 +42,8 @@ public class Client extends javax.swing.JFrame {
         gistEventTo.setWrapStyleWord(true);
         gistEventFrom.setLineWrap(true);
         gistEventFrom.setWrapStyleWord(true);
+        listModel = new DefaultListModel();
+        listOfSelectedInventory.setModel(listModel);
         getConnection();
     }
     private void getConnection()
@@ -63,7 +68,7 @@ public class Client extends javax.swing.JFrame {
                         dateEvent,durationEvent,responsibleForEventList,
                         eventTable,gistEventFrom,gistEventTo,listOfInventoryForEvent,
                         selectInventory,deleteInventory,listOfSelectedInventory,
-                        addInventoryForEvent,false));
+                        addInventoryForEvent,inventoryForEvent,false));
                 inventory.start();
                 employee.start();
                 event.start();
@@ -163,7 +168,7 @@ public class Client extends javax.swing.JFrame {
         deleteInventory = new javax.swing.JButton();
         selectInventory = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        inventoryForEvent = new javax.swing.JTextArea();
         jLabel23 = new javax.swing.JLabel();
         squadTab = new javax.swing.JPanel();
         childTab = new javax.swing.JPanel();
@@ -463,14 +468,29 @@ public class Client extends javax.swing.JFrame {
         jLabel25.setText("Inventory");
 
         addInventoryForEvent.setText("Add inventory for the event");
+        addInventoryForEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addInventoryForEventActionPerformed(evt);
+            }
+        });
 
         jScrollPane6.setViewportView(listOfSelectedInventory);
 
         jLabel26.setText("Selected inventory");
 
         deleteInventory.setText("Delete inventory");
+        deleteInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteInventoryActionPerformed(evt);
+            }
+        });
 
         selectInventory.setText("Select inventory");
+        selectInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectInventoryActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -510,13 +530,13 @@ public class Client extends javax.swing.JFrame {
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addInventoryForEvent)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
+        inventoryForEvent.setEditable(false);
+        inventoryForEvent.setColumns(20);
+        inventoryForEvent.setRows(5);
+        jScrollPane5.setViewportView(inventoryForEvent);
 
         jLabel23.setText("Inventory for the event");
 
@@ -606,7 +626,7 @@ public class Client extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(eventTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -739,7 +759,7 @@ public class Client extends javax.swing.JFrame {
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        listOfInventoryForEvent.addItem(nameInventory.getText());
         nameInventory.setText("");
         countInventory.setText("");
     }//GEN-LAST:event_addInventoryActionPerformed
@@ -749,7 +769,7 @@ public class Client extends javax.swing.JFrame {
                         dateEvent,durationEvent,responsibleForEventList,
                         eventTable,gistEventFrom,gistEventTo,listOfInventoryForEvent,
                         selectInventory,deleteInventory,listOfSelectedInventory,
-                        addInventoryForEvent,true));
+                        addInventoryForEvent,inventoryForEvent,true));
         event.start();
         try 
         {
@@ -765,6 +785,103 @@ public class Client extends javax.swing.JFrame {
             durationEvent.setText("");
             gistEventTo.setText("");
     }//GEN-LAST:event_addEventActionPerformed
+
+    private void selectInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInventoryActionPerformed
+        
+        boolean flag = false;
+        int n = eventTable.getRowCount();
+        for (int i = 0; i < n; i++)
+        {
+            if(eventTable.isRowSelected(i))
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            boolean fl = true;
+            for (int i = 0; i < listModel.size(); i++)
+            {
+                if(listOfInventoryForEvent.getSelectedItem().equals(listModel.getElementAt(i)))
+                {
+                    fl = false;
+                    break;
+                }
+            }
+            if(fl) 
+            {
+                listModel.addElement(listOfInventoryForEvent.getSelectedItem());
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "This element already selected");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Event isn't selected");
+        }
+    }//GEN-LAST:event_selectInventoryActionPerformed
+
+    private void deleteInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteInventoryActionPerformed
+            
+        boolean flag = false;
+        int index = 0;
+        if (listModel.isEmpty()) 
+        {
+            JOptionPane.showMessageDialog(null, "List of selected inventory is empty");
+        }
+        else
+        {
+            int n = listModel.size();
+            for( int i = 0; i < n; i++)
+            {
+                if(listOfSelectedInventory.isSelectedIndex(i))
+                {
+                    flag = true;
+                    index = i;
+                    break;
+                }
+            }
+            if(flag)
+            {
+                listModel.remove(index);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "You don't select removable element");
+            }
+        }
+        
+    }//GEN-LAST:event_deleteInventoryActionPerformed
+
+    private void addInventoryForEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addInventoryForEventActionPerformed
+        if (listModel.isEmpty())
+            JOptionPane.showMessageDialog(null, "You don't select inventory");
+        else
+        {
+            try 
+            {
+                Thread eventHasInventory = new Thread(new EventHasInventory(con,inventoryForEvent,listModel,Event.getName()));
+                eventHasInventory.start();
+                eventHasInventory.join();
+            } 
+            catch (InterruptedException ex) 
+            {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(EventHasInventory.getFlag())
+            {
+                JOptionPane.showMessageDialog(null, "You tried to add existing records!"
+                        + "These records aren't added");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Successfully completed!");
+            }
+        }
+    }//GEN-LAST:event_addInventoryForEventActionPerformed
 
     /**
      * @param args the command line arguments
@@ -831,6 +948,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTable eventTable;
     private javax.swing.JTextArea gistEventFrom;
     private javax.swing.JTextArea gistEventTo;
+    private javax.swing.JTextArea inventoryForEvent;
     private javax.swing.JPanel inventoryTab;
     private javax.swing.JTable inventoryTable;
     private javax.swing.JLabel jLabel1;
@@ -865,7 +983,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox listOfInventoryForEvent;
     private javax.swing.JList listOfSelectedInventory;
     private javax.swing.JTextArea log;

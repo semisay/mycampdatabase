@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -40,13 +41,15 @@ public class Event implements Runnable
     private JButton deleteInventory;
     private JList listOfSelectedInventory;
     private JButton addInventoryForEvent;
+    private JTextArea inventoryForEvent;
+    private static String name;
     private boolean addDate;
     
     Event(Connection _con,JTextField _Name, JTextField _Type, JTextField _Date,
             JTextField _Duration, JComboBox _ResponsibleForEvent,
             JTable _eventTable, JTextArea _Gist, JTextArea _addGist, JComboBox _listOfInventoryForEvent, 
             JButton _selectInventory, JButton _deleteInventory, JList _listOfSelectedInventory, 
-            JButton _addInventoryForEvent,boolean _addDate)
+            JButton _addInventoryForEvent,JTextArea _inventoryForEvent,boolean _addDate)
     {
         con = _con;
         Name = _Name;
@@ -63,6 +66,7 @@ public class Event implements Runnable
         deleteInventory = _deleteInventory;
         listOfSelectedInventory = _listOfSelectedInventory;
         addInventoryForEvent = _addInventoryForEvent;
+        inventoryForEvent = _inventoryForEvent;
     }
     @Override
     public void run() 
@@ -79,7 +83,7 @@ public class Event implements Runnable
                 {
                     ResultSet rs;
                     String query;
-                    String name = (String)eventTable.getValueAt(eventTable.getSelectedRow(), 0);
+                    name = (String)eventTable.getValueAt(eventTable.getSelectedRow(), 0);
                     try 
                     {
                         Statement statement = (Statement) con.createStatement();
@@ -88,6 +92,13 @@ public class Event implements Runnable
                         while(rs.next())
                         {
                             Gist.setText(rs.getString(1));
+                        }
+                        query = "select inventory_name from inventory_has_event where event_name = '" + name + "'";
+                        rs = statement.executeQuery(query);
+                        inventoryForEvent.setText("");
+                        while(rs.next())
+                        {
+                            inventoryForEvent.append(rs.getString(1) + "\n");
                         }
                     } 
                     catch (SQLException ex) 
@@ -132,6 +143,12 @@ public class Event implements Runnable
                 {
                     ResponsibleForEvent.addItem(rs.getInt(1)+"."+rs.getString(2));
                 }
+                query = "select name from inventory";
+                rs = statement.executeQuery(query);
+                while(rs.next())
+                {
+                    listOfInventoryForEvent.addItem(rs.getString(1));
+                }
                 query = "select * from event";
                 rs = statement.executeQuery(query);
                 int i = 0;
@@ -153,5 +170,8 @@ public class Event implements Runnable
             Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    public static String getName()
+    {
+        return name;
+    }
 }
