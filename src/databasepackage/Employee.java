@@ -20,7 +20,7 @@ public class Employee implements Runnable
     private Connection con;
     private JTable employeeTable;
     private boolean AddDate;
-    private JTextField ID;
+    private static JTextField ID;
     private JTextField Surname;
     private JTextField Name;
     private JTextField Patronymic;
@@ -63,6 +63,7 @@ public class Employee implements Runnable
         {
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
+            int maxID = 0;
             if(AddDate)
             {
                 statement.executeUpdate("INSERT INTO employee (ID, surname, name, patronymic, DOB, passport_series, passport_number, issuing_authority, date_of_issue, education, post, wages) " + 
@@ -112,6 +113,8 @@ public class Employee implements Runnable
                     {
                         myModel.addRow(new String[0]);
                         employeeTable.setValueAt(rs.getInt(1), i, 0);
+                        if (rs.getInt(1) > maxID)
+                            maxID = rs.getInt(1);
                         employeeTable.setValueAt(rs.getString(2), i, 1);
                         employeeTable.setValueAt(rs.getString(3), i, 2);
                         employeeTable.setValueAt(rs.getString(4), i, 3);
@@ -125,6 +128,7 @@ public class Employee implements Runnable
                         employeeTable.setValueAt(rs.getInt(12), i, 11);
                         i++;
                     }
+                    ID.setText(String.valueOf(maxID+1));
                 } 
                 finally 
                 {

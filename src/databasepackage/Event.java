@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -33,12 +35,18 @@ public class Event implements Runnable
     private JTable eventTable;
     private JTextArea Gist;
     private JTextArea addGist;
+    private JComboBox listOfInventoryForEvent;
+    private JButton selectInventory;
+    private JButton deleteInventory;
+    private JList listOfSelectedInventory;
+    private JButton addInventoryForEvent;
     private boolean addDate;
     
     Event(Connection _con,JTextField _Name, JTextField _Type, JTextField _Date,
             JTextField _Duration, JComboBox _ResponsibleForEvent,
-            JTable _eventTable, JTextArea _Gist, JTextArea _addGist,
-            boolean _addDate)
+            JTable _eventTable, JTextArea _Gist, JTextArea _addGist, JComboBox _listOfInventoryForEvent, 
+            JButton _selectInventory, JButton _deleteInventory, JList _listOfSelectedInventory, 
+            JButton _addInventoryForEvent,boolean _addDate)
     {
         con = _con;
         Name = _Name;
@@ -50,8 +58,12 @@ public class Event implements Runnable
         Gist = _Gist;
         addGist = _addGist;
         addDate = _addDate;
+        listOfInventoryForEvent = _listOfInventoryForEvent;
+        selectInventory = _selectInventory;
+        deleteInventory = _deleteInventory;
+        listOfSelectedInventory = _listOfSelectedInventory;
+        addInventoryForEvent = _addInventoryForEvent;
     }
-    
     @Override
     public void run() 
     {
