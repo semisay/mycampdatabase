@@ -43,13 +43,13 @@ public class Event implements Runnable
     private JButton addInventoryForEvent;
     private JTextArea inventoryForEvent;
     private static String name;
-    private boolean addDate;
+    private boolean addData;
     
     Event(Connection _con,JTextField _Name, JTextField _Type, JTextField _Date,
             JTextField _Duration, JComboBox _ResponsibleForEvent,
             JTable _eventTable, JTextArea _Gist, JTextArea _addGist, JComboBox _listOfInventoryForEvent, 
             JButton _selectInventory, JButton _deleteInventory, JList _listOfSelectedInventory, 
-            JButton _addInventoryForEvent,JTextArea _inventoryForEvent,boolean _addDate)
+            JButton _addInventoryForEvent,JTextArea _inventoryForEvent,boolean _addData)
     {
         con = _con;
         Name = _Name;
@@ -60,7 +60,7 @@ public class Event implements Runnable
         eventTable = _eventTable;
         Gist = _Gist;
         addGist = _addGist;
-        addDate = _addDate;
+        addData = _addData;
         listOfInventoryForEvent = _listOfInventoryForEvent;
         selectInventory = _selectInventory;
         deleteInventory = _deleteInventory;
@@ -107,7 +107,7 @@ public class Event implements Runnable
                     }
                 }
             });
-            if(addDate)
+            if(addData)
             {
                 int i = 0;
                 String id = "";

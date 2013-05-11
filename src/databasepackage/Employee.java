@@ -19,7 +19,7 @@ public class Employee implements Runnable
 {
     private Connection con;
     private JTable employeeTable;
-    private boolean AddDate;
+    private boolean AddData;
     private static JTextField ID;
     private JTextField Surname;
     private JTextField Name;
@@ -42,7 +42,7 @@ public class Employee implements Runnable
     {
         con = connection;
         employeeTable = emplTable;
-        AddDate = fl;
+        AddData = fl;
         ID = id;
         Surname = surname;
         Name = name;
@@ -64,7 +64,7 @@ public class Employee implements Runnable
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
             int maxID = 0;
-            if(AddDate)
+            if(AddData)
             {
                 statement.executeUpdate("INSERT INTO employee (ID, surname, name, patronymic, DOB, passport_series, passport_number, issuing_authority, date_of_issue, education, post, wages) " + 
                 "VALUES (" + ID.getText() + ", "

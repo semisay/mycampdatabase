@@ -18,7 +18,7 @@ public class Inventory implements Runnable
     private JTextField Count;
     private JComboBox ResponsibleList;
     private JTable inventoryTable;
-    private boolean addDate;
+    private boolean addData;
     
     Inventory(Connection connect, JTextField name, JTextField count, JComboBox resp, JTable inventory, boolean add)
     {
@@ -27,7 +27,7 @@ public class Inventory implements Runnable
         Count = count;
         ResponsibleList = resp;
         inventoryTable = inventory;
-        addDate = add;
+        addData = add;
     }
     @Override
     public void run() 
@@ -37,7 +37,7 @@ public class Inventory implements Runnable
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
             String query = "";
-            if(addDate)
+            if(addData)
             {
                 int i = 0;
                 String id = "";
