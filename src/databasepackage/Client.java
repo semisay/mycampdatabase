@@ -50,6 +50,8 @@ public class Client extends javax.swing.JFrame {
         inventoryForEvent.setWrapStyleWord(true);
         addContraindication.setLineWrap(true);
         addContraindication.setWrapStyleWord(true);
+        contraindication.setLineWrap(true);
+        contraindication.setWrapStyleWord(true);
         listModel = new DefaultListModel();
         listOfSelectedInventory.setModel(listModel);
         getConnection();
@@ -79,6 +81,10 @@ public class Client extends javax.swing.JFrame {
                         addInventoryForEvent,inventoryForEvent,false,errorStatus));
                 Thread squad = new Thread(new Squad(con,squadID,squadName,mottoTo,mottoFrom,
                         educatorList,leaderList,squadTable,false,errorStatus));
+                Thread child = new Thread(new Child(con,childID,childSurname,childName,childPatronymic,
+                        childDOB,bloodGroupList,childGrowth,childWeight,medicalGroupList,squadList,
+                        addContraindication,childTable,contraindication,childInformation,false,errorStatus));
+                child.start();
                 squad.start();
                 inventory.start();
                 employee.start();
@@ -200,9 +206,9 @@ public class Client extends javax.swing.JFrame {
         leaderList = new javax.swing.JComboBox();
         jLabel31 = new javax.swing.JLabel();
         childTab = new javax.swing.JPanel();
-        childName = new javax.swing.JTextField();
-        jLabel32 = new javax.swing.JLabel();
         childSurname = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        childName = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         childPatronymic = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
@@ -801,11 +807,13 @@ public class Client extends javax.swing.JFrame {
 
         mainTabbedPane.addTab("Squad", squadTab);
 
-        jLabel32.setText("Name");
+        jLabel32.setText("Surname");
 
-        jLabel33.setText("Surname");
+        jLabel33.setText("Name");
 
         jLabel34.setText("Patronymic");
+
+        childID.setEditable(false);
 
         jLabel35.setText("ID");
 
@@ -832,6 +840,11 @@ public class Client extends javax.swing.JFrame {
         jLabel42.setText("Add contraindication");
 
         jButton1.setText("Add Child");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         childTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -869,53 +882,57 @@ public class Client extends javax.swing.JFrame {
             childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(childTabLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane11)
+                .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(childTabLayout.createSequentialGroup()
                         .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel35)
-                            .addComponent(childID, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(childName, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel33)
-                            .addComponent(childSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel34)
-                            .addComponent(childPatronymic, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(childDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel37)
-                            .addComponent(bloodGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(childTabLayout.createSequentialGroup()
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel38)
-                            .addComponent(childGrowth, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel39)
-                            .addComponent(childWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel40)
-                            .addComponent(medicalGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(squadList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel41)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel42)
-                            .addComponent(jScrollPane10)))
+                            .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(childTabLayout.createSequentialGroup()
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel35)
+                                        .addComponent(childID, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(childSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel32))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel33)
+                                        .addComponent(childName, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel34)
+                                        .addComponent(childPatronymic, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(childDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel36))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel37)
+                                        .addComponent(bloodGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(childTabLayout.createSequentialGroup()
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel38)
+                                        .addComponent(childGrowth, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel39)
+                                        .addComponent(childWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel40)
+                                        .addComponent(medicalGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(squadList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel41)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel42)
+                                        .addComponent(jScrollPane10))))
+                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(213, Short.MAX_VALUE))
                     .addGroup(childTabLayout.createSequentialGroup()
                         .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -923,8 +940,7 @@ public class Client extends javax.swing.JFrame {
                         .addGap(44, 44, 44)
                         .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel44)
-                            .addComponent(jScrollPane13))))
-                .addContainerGap(406, Short.MAX_VALUE))
+                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         childTabLayout.setVerticalGroup(
             childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,8 +955,8 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(jLabel37))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(childName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(childSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(childName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(childPatronymic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(childID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(childDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1266,6 +1282,7 @@ public class Client extends javax.swing.JFrame {
         }
         if(!Squad.getError())
         {
+            squadList.addItem(squadID);
             squadID.setText("");
             squadName.setText("");
             mottoTo.setText("");
@@ -1277,6 +1294,36 @@ public class Client extends javax.swing.JFrame {
             Squad.setError();
         }
     }//GEN-LAST:event_addSquadActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try 
+        {
+            Thread child = new Thread(new Child(con,childID,childSurname,childName,childPatronymic,
+                            childDOB,bloodGroupList,childGrowth,childWeight,medicalGroupList,squadList,
+                            addContraindication,childTable,contraindication,childInformation,true,errorStatus));
+            child.start();
+            child.join();
+        } 
+        catch (InterruptedException ex) 
+        {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(!Child.getError())
+        {
+            childSurname.setText("");
+            childName.setText("");
+            childPatronymic.setText("");
+            childDOB.setText("");
+            childGrowth.setText("");
+            childWeight.setText("");
+            contraindication.setText("");
+            childID.setText(String.valueOf(Integer.parseInt(childID.getText())+1));
+        }
+        else
+        {
+            Squad.setError();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
