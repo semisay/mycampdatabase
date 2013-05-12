@@ -113,7 +113,6 @@ public class Child implements Runnable
                                         + rs.getString(6) + "\n\n");
                                 i++;
                             }
-
                         }
                         else
                         {

@@ -11,7 +11,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,12 +37,15 @@ public class Parent implements Runnable
     private JTextField errorStatus;
     private static boolean error;
     private int child_id;
+    private JTextArea childrenList;
+    
     Parent(Connection _con, JTextField _addParentID, JTextField _addParentSurname, 
             JTextField _addParentName, JTextField _addParentPatronymic, 
             JTextField _addParentJob, JTextField _addParentTelephone, 
             JTextField _addParentStatus, JTable _parentTable ,boolean _b, 
-            JTextField _errorStatus,int _child_id) 
+            JTextField _errorStatus,int _child_id, JTextArea _childrenList) 
     {
+        childrenList = _childrenList;
         child_id = _child_id;
         con = _con;
         addParentID = _addParentID;
@@ -54,12 +60,42 @@ public class Parent implements Runnable
         error = false;
         parentTable = _parentTable;
     }
+
     
     @Override
     public void run() 
     {
         try
         {
+            parentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+            {
+                @Override
+                public void valueChanged(ListSelectionEvent e) 
+                {
+                    ResultSet rs;
+                    String query;
+                    String id = String.valueOf(parentTable.getValueAt(parentTable.getSelectedRow(), 0));
+                    try 
+                    {
+                        Statement statement = (Statement) con.createStatement();
+                        query = "select ID,surname,name,patronymic from child where ID in "
+                                + "(select child_ID from child_has_parent where parent_ID = " + id + ")";
+                        rs = statement.executeQuery(query);
+                        childrenList.setText("");
+                        while(rs.next())
+                        {
+                            childrenList.append(String.valueOf(rs.getInt(1)) + ". "
+                                    + rs.getString(2) + " "
+                                    + rs.getString(3) + " "
+                                    + rs.getString(4) + "\n");
+                        }
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
             int maxID = 0;

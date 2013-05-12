@@ -60,6 +60,7 @@ public class Squad implements Runnable
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
             String query;
+            int maxID = 0;
             squadTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
             {
                 @Override
@@ -158,6 +159,10 @@ public class Squad implements Runnable
                 {
                     myModel.addRow(new String[0]);
                     squadTable.setValueAt(rs.getInt(1), i, 0);
+                    if (rs.getInt(1) > maxID) 
+                    {
+                            maxID = rs.getInt(1);
+                    }
                     squadTable.setValueAt(rs.getString(2), i, 1);
                     squadTable.setValueAt(Employee.getEmployee(rs.getInt(4), con), i, 2);
                     squadTable.setValueAt(Employee.getEmployee(rs.getInt(5), con), i, 3);
@@ -165,6 +170,7 @@ public class Squad implements Runnable
                 }
                 if(!error) 
                 {
+                    squadID.setText(String.valueOf(maxID+1));
                     errorStatus.setText("Data is recived");
                 }
             }

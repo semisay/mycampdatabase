@@ -3,7 +3,9 @@ package databasepackage;
 import com.mysql.jdbc.Connection;
 import java.awt.Dimension;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -86,7 +88,7 @@ public class Client extends javax.swing.JFrame {
                         addContraindication,childTable,contraindication,childInformation,false,errorStatus));
                 Thread parent = new Thread(new Parent(con,addParentID,addParentSurname,
                     addParentName,addParentPatronymic,addParentJob,addParentTelephone,
-                    addParentStatus,parentTable,false,errorStatus, 0));
+                    addParentStatus,parentTable,false,errorStatus, 0, childrenList));
                 parent.start();
                 child.start();
                 squad.start();
@@ -136,6 +138,9 @@ public class Client extends javax.swing.JFrame {
         addParentStatus = new javax.swing.JTextField();
         jLabel52 = new javax.swing.JLabel();
         jDialog2 = new javax.swing.JDialog();
+        existParentList = new javax.swing.JComboBox();
+        jLabel53 = new javax.swing.JLabel();
+        addExistParentInformation = new javax.swing.JButton();
         mainTabbedPane = new javax.swing.JTabbedPane();
         employeeTab = new javax.swing.JPanel();
         addEmployee = new javax.swing.JButton();
@@ -258,12 +263,14 @@ public class Client extends javax.swing.JFrame {
         jScrollPane13 = new javax.swing.JScrollPane();
         childInformation = new javax.swing.JTextArea();
         jLabel44 = new javax.swing.JLabel();
-        addParent = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addNewParent = new javax.swing.JButton();
+        addExistParent = new javax.swing.JButton();
         parentTab = new javax.swing.JPanel();
         jScrollPane14 = new javax.swing.JScrollPane();
         parentTable = new javax.swing.JTable();
-        orphanageTab = new javax.swing.JPanel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        childrenList = new javax.swing.JTextArea();
+        jLabel54 = new javax.swing.JLabel();
         logTab = new javax.swing.JPanel();
         logScrollPane = new javax.swing.JScrollPane();
         log = new javax.swing.JTextArea();
@@ -367,15 +374,43 @@ public class Client extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jDialog2.setTitle("Add exist parent");
+
+        jLabel53.setText("List of parent");
+
+        addExistParentInformation.setText("Add");
+        addExistParentInformation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExistParentInformationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
         jDialog2.getContentPane().setLayout(jDialog2Layout);
         jDialog2Layout.setHorizontalGroup(
             jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGroup(jDialog2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(existParentList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addComponent(jLabel53)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog2Layout.createSequentialGroup()
+                        .addGap(0, 296, Short.MAX_VALUE)
+                        .addComponent(addExistParentInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jDialog2Layout.setVerticalGroup(
             jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 206, Short.MAX_VALUE)
+            .addGroup(jDialog2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(existParentList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addExistParentInformation)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -531,7 +566,7 @@ public class Client extends javax.swing.JFrame {
                             .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(postList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+                .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Employee", employeeTab);
@@ -610,7 +645,7 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(responsibleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addInventory))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
         );
 
         mainTabbedPane.addTab("Inventory", inventoryTab);
@@ -814,7 +849,7 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(eventTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                     .addComponent(jScrollPane5))
                 .addContainerGap())
             .addGroup(eventTabLayout.createSequentialGroup()
@@ -832,6 +867,8 @@ public class Client extends javax.swing.JFrame {
         );
 
         mainTabbedPane.addTab("Event", eventTab);
+
+        squadID.setEditable(false);
 
         jLabel24.setText("Number");
 
@@ -852,7 +889,15 @@ public class Client extends javax.swing.JFrame {
             new String [] {
                 "Number", "Name", "Educator", "Leader"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane8.setViewportView(squadTable);
 
         mottoFrom.setColumns(20);
@@ -987,7 +1032,7 @@ public class Client extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1008,14 +1053,19 @@ public class Client extends javax.swing.JFrame {
 
         jLabel44.setText("Information about parents/orphanage");
 
-        addParent.setText("Add parent");
-        addParent.addActionListener(new java.awt.event.ActionListener() {
+        addNewParent.setText("Add new parent");
+        addNewParent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addParentActionPerformed(evt);
+                addNewParentActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Add orphanage");
+        addExistParent.setText("Add exist parent");
+        addExistParent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExistParentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout childTabLayout = new javax.swing.GroupLayout(childTab);
         childTab.setLayout(childTabLayout);
@@ -1052,9 +1102,9 @@ public class Client extends javax.swing.JFrame {
                                     .addGroup(childTabLayout.createSequentialGroup()
                                         .addComponent(bloodGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(addParent)
+                                        .addComponent(addNewParent)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton3)))
+                                        .addComponent(addExistParent)))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(childTabLayout.createSequentialGroup()
                                 .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1110,8 +1160,8 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(childID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(childDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bloodGroupList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addParent)
-                    .addComponent(jButton3))
+                    .addComponent(addNewParent)
+                    .addComponent(addExistParent))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(childTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
@@ -1129,7 +1179,7 @@ public class Client extends javax.swing.JFrame {
                             .addComponent(childGrowth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
@@ -1163,37 +1213,41 @@ public class Client extends javax.swing.JFrame {
         });
         jScrollPane14.setViewportView(parentTable);
 
+        childrenList.setEditable(false);
+        childrenList.setColumns(20);
+        childrenList.setRows(5);
+        jScrollPane15.setViewportView(childrenList);
+
+        jLabel54.setText("List of children");
+
         javax.swing.GroupLayout parentTabLayout = new javax.swing.GroupLayout(parentTab);
         parentTab.setLayout(parentTabLayout);
         parentTabLayout.setHorizontalGroup(
             parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parentTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(554, Short.MAX_VALUE))
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addGroup(parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel54))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         parentTabLayout.setVerticalGroup(
             parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parentTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+                .addGroup(parentTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(parentTabLayout.createSequentialGroup()
+                        .addComponent(jLabel54)
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         mainTabbedPane.addTab("Parent", parentTab);
-
-        javax.swing.GroupLayout orphanageTabLayout = new javax.swing.GroupLayout(orphanageTab);
-        orphanageTab.setLayout(orphanageTabLayout);
-        orphanageTabLayout.setHorizontalGroup(
-            orphanageTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1016, Short.MAX_VALUE)
-        );
-        orphanageTabLayout.setVerticalGroup(
-            orphanageTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
-        );
-
-        mainTabbedPane.addTab("Orphanage", orphanageTab);
 
         log.setEditable(false);
         log.setColumns(20);
@@ -1208,7 +1262,7 @@ public class Client extends javax.swing.JFrame {
         );
         logTabLayout.setVerticalGroup(
             logTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
         );
 
         mainTabbedPane.addTab("Log", logTab);
@@ -1231,12 +1285,12 @@ public class Client extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel45)
                     .addComponent(errorStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -1458,11 +1512,12 @@ public class Client extends javax.swing.JFrame {
         if(!Squad.getError())
         {
             squadList.addItem(squadID);
-            squadID.setText("");
+            squadID.setText(String.valueOf(Integer.parseInt(squadID.getText())+1));
             squadName.setText("");
             mottoTo.setText("");
             educatorList.removeItemAt(educatorList.getSelectedIndex());
             leaderList.removeItemAt(leaderList.getSelectedIndex());
+            
         }
         else
         {
@@ -1500,21 +1555,21 @@ public class Client extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void addParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParentActionPerformed
+    private void addNewParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewParentActionPerformed
         
-        if( Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) < 2)
+        boolean flag = false;
+        int n = childTable.getRowCount();
+        for (int i = 0; i < n; i++)
         {
-            boolean flag = false;
-            int n = childTable.getRowCount();
-            for (int i = 0; i < n; i++)
+            if(childTable.isRowSelected(i))
             {
-                if(childTable.isRowSelected(i))
-                {
-                    flag = true;
-                    break;
-                }
+                flag = true;
+                break;
             }
-            if(flag)
+        }
+        if(flag)
+        {
+            if( Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) < 2)
             {
                 jDialog1.setSize(550, 200);
                 Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -1532,21 +1587,21 @@ public class Client extends javax.swing.JFrame {
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "You don't choose child");
+                JOptionPane.showMessageDialog(null, "This child already has 2 parent");
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(null, "This child already has 2 parent");
+            JOptionPane.showMessageDialog(null, "You don't choose child");
         }
-    }//GEN-LAST:event_addParentActionPerformed
+    }//GEN-LAST:event_addNewParentActionPerformed
 
     private void addParentInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParentInformationActionPerformed
         
             Thread parent = new Thread(new Parent(con,addParentID,addParentSurname,
                     addParentName,addParentPatronymic,addParentJob,addParentTelephone,
                     addParentStatus,parentTable,true,errorStatus,
-                    (Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)));
+                    (Integer)childTable.getValueAt(childTable.getSelectedRow(),0), childrenList));
             parent.start();
             try 
             {
@@ -1566,13 +1621,36 @@ public class Client extends javax.swing.JFrame {
                 addParentTelephone.setText("");
                 addParentStatus.setText("");
                 jDialog1.setVisible(false);
-                this.setFocusable(true);
                 if (Parent.getParentCount
                         (con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) > 0) 
                 {
+                    
                     childInformation.setText("This child has " + 
                             String.valueOf(Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)))
-                            + " parent(s)");
+                            + " parent(s):\n");
+                    String query = "select * from parent where ID in (" + 
+                                    "select parent_ID from child_has_parent where child_ID = "
+                                    + String.valueOf(childTable.getValueAt(childTable.getSelectedRow(), 0)) + ")";
+                    try 
+                    {
+                        Statement statement;
+                        statement = con.createStatement();
+                        ResultSet rs = statement.executeQuery(query);
+                        int i = 0;
+                        while(rs.next())
+                        {
+                            childInformation.append(rs.getString(2) + " "
+                                    + rs.getString(3) + " "
+                                    + rs.getString(4) + "\nJob: "
+                                    + rs.getString(5) + "\nTelephone: "
+                                    + rs.getString(6) + "\n\n");
+                            i++;
+                        }
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             else
@@ -1580,6 +1658,127 @@ public class Client extends javax.swing.JFrame {
                 Parent.setError();
             }
     }//GEN-LAST:event_addParentInformationActionPerformed
+
+    private void addExistParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExistParentActionPerformed
+        
+        boolean flag = false;
+        int n = childTable.getRowCount();
+        for (int i = 0; i < n; i++)
+        {
+            if(childTable.isRowSelected(i))
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            if( Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) < 2)
+            {
+                jDialog2.setSize(550, 180);
+                Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+                int x = (int) ((screenSize.getWidth() - jDialog2.getWidth()) / 2);
+                if (x < 0) {
+                    x = 0;
+                }
+                int y = (int) ((screenSize.getHeight() - jDialog2.getHeight()) / 2);
+                if (y < 0) {
+                    y = 0;
+                }
+                jDialog2.setBounds(x, y, jDialog2.getWidth(), jDialog2.getHeight());
+                jDialog2.setVisible(true);
+                try 
+                {
+                    Statement statement;
+                    statement = con.createStatement();
+                    String query = "select ID, surname, name, patronymic from parent";
+                    ResultSet rs = statement.executeQuery(query);
+                    while(rs.next())
+                    {
+                        existParentList.addItem(String.valueOf(rs.getInt(1)) + ". "
+                                + rs.getString(2) + " "
+                                + rs.getString(3) + " "
+                                + rs.getString(4));
+                    }
+                } 
+                catch (SQLException ex) 
+                {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "This child already has 2 parent");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You don't choose child");
+        }
+    }//GEN-LAST:event_addExistParentActionPerformed
+
+    private void addExistParentInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExistParentInformationActionPerformed
+        
+        String idParent = "";
+        String idChild = String.valueOf(childTable.getValueAt(childTable.getSelectedRow(),0));
+        String select = (String)existParentList.getSelectedItem();
+        String query = "";
+        int i = 0;
+        while(select.charAt(i) != '.')
+        {
+            idParent = idParent + select.charAt(i);
+            i++;
+        }
+        try 
+        {
+            Statement statement = con.createStatement();
+            ResultSet rs;
+            query = "select * from child_has_parent where (child_ID = " + idChild +
+                    ") and (parent_ID = " + idParent + ")";
+            rs = statement.executeQuery(query);
+            if(rs.next())
+            {
+                JOptionPane.showMessageDialog(null, "This child already has this parent");
+            }
+            else
+            {
+                statement.executeUpdate("insert into child_has_parent (child_ID,parent_ID)"
+                        + "values (" + idChild + ", " + idParent + ")");
+                jDialog2.setVisible(false);
+                if (Parent.getParentCount
+                        (con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) > 0) 
+                {
+                    childInformation.setText("This child has " + 
+                            String.valueOf(Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)))
+                            + " parent(s):\n");
+                    query = "select * from parent where ID in (" + 
+                                    "select parent_ID from child_has_parent where child_ID = "
+                                    + String.valueOf(childTable.getValueAt(childTable.getSelectedRow(), 0)) + ")";
+                    rs = statement.executeQuery(query);
+                    try 
+                    {
+                        i = 0;
+                        while(rs.next())
+                        {
+                            childInformation.append(rs.getString(2) + " "
+                                    + rs.getString(3) + " "
+                                    + rs.getString(4) + "\nJob: "
+                                    + rs.getString(5) + "\nTelephone: "
+                                    + rs.getString(6) + "\n\n");
+                            i++;
+                        }
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addExistParentInformationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1631,9 +1830,11 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextArea addContraindication;
     private javax.swing.JButton addEmployee;
     private javax.swing.JButton addEvent;
+    private javax.swing.JButton addExistParent;
+    private javax.swing.JButton addExistParentInformation;
     private javax.swing.JButton addInventory;
     private javax.swing.JButton addInventoryForEvent;
-    private javax.swing.JButton addParent;
+    private javax.swing.JButton addNewParent;
     private javax.swing.JTextField addParentID;
     private javax.swing.JButton addParentInformation;
     private javax.swing.JTextField addParentJob;
@@ -1654,6 +1855,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JPanel childTab;
     private javax.swing.JTable childTable;
     private javax.swing.JTextField childWeight;
+    private javax.swing.JTextArea childrenList;
     private javax.swing.JTextArea contraindication;
     private javax.swing.JTextField countInventory;
     private javax.swing.JTextField dateEvent;
@@ -1666,13 +1868,13 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextField errorStatus;
     private javax.swing.JPanel eventTab;
     private javax.swing.JTable eventTable;
+    private javax.swing.JComboBox existParentList;
     private javax.swing.JTextArea gistEventFrom;
     private javax.swing.JTextArea gistEventTo;
     private javax.swing.JTextArea inventoryForEvent;
     private javax.swing.JPanel inventoryTab;
     private javax.swing.JTable inventoryTable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
@@ -1723,6 +1925,8 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1734,6 +1938,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1754,7 +1959,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextArea mottoTo;
     private javax.swing.JTextField nameEvent;
     private javax.swing.JTextField nameInventory;
-    private javax.swing.JPanel orphanageTab;
     private javax.swing.JPanel parentTab;
     private javax.swing.JTable parentTable;
     private javax.swing.JComboBox postList;
