@@ -8,10 +8,14 @@ import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -73,6 +77,40 @@ public class Child implements Runnable
             Statement statement = (Statement) con.createStatement();
             ResultSet rs;
             int maxID = 0;
+            childTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+            {
+                @Override
+                public void valueChanged(ListSelectionEvent e) 
+                {
+                    ResultSet rs;
+                    String query;
+                    String id = String.valueOf(childTable.getValueAt(childTable.getSelectedRow(), 0));
+                    try 
+                    {
+                        Statement statement = (Statement) con.createStatement();
+                        query = "select contraindications from child where id = " + id;
+                        rs = statement.executeQuery(query);
+                        while(rs.next())
+                        {
+                            contraindication.setText(rs.getString(1));
+                        }
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) > 0) 
+                    {
+                        childInformation.setText("This child has " + 
+                                String.valueOf(Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)))
+                                + " parent(s)");
+                    }
+                    else
+                    {
+                        childInformation.setText("This child hasn't parent");
+                    }
+                }
+            });
             if(AddData)
             {
                 if( (childSurname.getText().length() == 0) ||
@@ -165,7 +203,7 @@ public class Child implements Runnable
         } 
         catch (SQLException ex) 
         {
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getErrorCode());
             error = true;
             switch(ex.getErrorCode())
             {
