@@ -33,13 +33,15 @@ public class Employee implements Runnable
     private JTextField Education;
     private JComboBox postList;
     private JTextField Wages;
+    private JTextField errorStatus;
+    private static boolean error;
     
     Employee(Connection connection,JTable emplTable, JTextField id, 
             JTextField surname, JTextField name,
             JTextField patronymic, JTextField dob, JTextField passport_series,
             JTextField passport_number, JTextField issuing_authority,
             JTextField date_of_issuing, JTextField education,
-            JComboBox _postList, JTextField wages, boolean fl)
+            JComboBox _postList, JTextField wages, boolean fl,JTextField _error)
     {
         con = connection;
         employeeTable = emplTable;
@@ -56,6 +58,8 @@ public class Employee implements Runnable
         Education = education;
         postList = _postList;
         Wages = wages;
+        errorStatus = _error;
+        error = false;
     }
     @Override
     public void run() 
@@ -67,6 +71,16 @@ public class Employee implements Runnable
             int maxID = 0;
             if(AddData)
             {
+                if( (Surname.getText().length() == 0) ||
+                    (Name.getText().length() == 0) ||
+                    (Patronymic.getText().length() == 0) ||
+                    (Passport_series.getText().length() == 0) ||
+                    (Passport_number.getText().length() == 0) ||
+                    (Issuing_authority.getText().length() == 0) ||
+                    (Education.getText().length() == 0))
+                {
+                    throw new SQLException();
+                }
                 statement.executeUpdate("INSERT INTO employee (ID, surname, name, patronymic, DOB, passport_series, passport_number, issuing_authority, date_of_issue, education, post, wages) " + 
                 "VALUES (" + ID.getText() + ", "
                            + " '" + Surname.getText() + "', " 
@@ -80,7 +94,7 @@ public class Employee implements Runnable
                            + " '" + Education.getText() + "', "
                            + " '" + (String)postList.getSelectedItem() + "', "
                            + Wages.getText() + ")");
-                String query = "select * from employee having ID = " + ID.getText();
+                String query = "select * from employee where ID = " + ID.getText();
                 rs = statement.executeQuery(query);
                 int i = employeeTable.getRowCount();
                 DefaultTableModel myModel = (DefaultTableModel) employeeTable.getModel();
@@ -100,6 +114,10 @@ public class Employee implements Runnable
                     employeeTable.setValueAt(rs.getString(11), i, 10);
                     employeeTable.setValueAt(rs.getInt(12), i, 11);
                     i++;
+                }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is successfully added");
                 }
             }
             else
@@ -131,7 +149,11 @@ public class Employee implements Runnable
                         employeeTable.setValueAt(rs.getInt(12), i, 11);
                         i++;
                     }
-                    ID.setText(String.valueOf(maxID+1));
+                    if(!error) 
+                    {
+                        ID.setText(String.valueOf(maxID+1));
+                        errorStatus.setText("Data is recived");
+                    }
                 } 
                 finally 
                 {
@@ -141,7 +163,37 @@ public class Employee implements Runnable
         } 
         catch (SQLException ex) 
         {
-            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+            error = true;
+            switch(ex.getErrorCode())
+            {
+                case 1064:
+                {
+                    errorStatus.setText("You have not entered all the data");
+                    break;
+                }
+                case 1292:
+                {
+                    errorStatus.setText("Invalid date. Format date: yyyy-mm-dd");
+                    break;
+                }
+                case 1054:
+                {
+                    errorStatus.setText("You entered in the numeric keypad char");
+                    break;
+                }
+                case 1406:
+                {
+                    errorStatus.setText("You entered is too long a word");
+                    break;
+                }
+                case 1062:
+                {
+                    errorStatus.setText("This record already exists");
+                    break;
+                }
+                default:
+                    errorStatus.setText("You have not entered all the data");
+            }
         }
     }
     public static String getEmployee(int ID,Connection con)
@@ -166,4 +218,12 @@ public class Employee implements Runnable
         }
         return null;
     }
+    public static boolean getError()
+    {
+        return error;
+    }
+    public static void setError()
+    {
+        error = false;
+    }        
 }

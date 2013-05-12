@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -37,19 +36,21 @@ public class Event implements Runnable
     private JTextArea Gist;
     private JTextArea addGist;
     private JComboBox listOfInventoryForEvent;
-    private JButton selectInventory;
-    private JButton deleteInventory;
-    private JList listOfSelectedInventory;
-    private JButton addInventoryForEvent;
+    //private JButton selectInventory;
+    //private JButton deleteInventory;
+    //private JList listOfSelectedInventory;
+    //private JButton addInventoryForEvent;
     private JTextArea inventoryForEvent;
     private static String name;
     private boolean addData;
+    private static boolean error;
+    private JTextField errorStatus;
     
     Event(Connection _con,JTextField _Name, JTextField _Type, JTextField _Date,
             JTextField _Duration, JComboBox _ResponsibleForEvent,
             JTable _eventTable, JTextArea _Gist, JTextArea _addGist, JComboBox _listOfInventoryForEvent, 
             JButton _selectInventory, JButton _deleteInventory, JList _listOfSelectedInventory, 
-            JButton _addInventoryForEvent,JTextArea _inventoryForEvent,boolean _addData)
+            JButton _addInventoryForEvent,JTextArea _inventoryForEvent,boolean _addData,JTextField _error)
     {
         con = _con;
         Name = _Name;
@@ -62,11 +63,12 @@ public class Event implements Runnable
         addGist = _addGist;
         addData = _addData;
         listOfInventoryForEvent = _listOfInventoryForEvent;
-        selectInventory = _selectInventory;
-        deleteInventory = _deleteInventory;
-        listOfSelectedInventory = _listOfSelectedInventory;
-        addInventoryForEvent = _addInventoryForEvent;
+        //selectInventory = _selectInventory;
+        //deleteInventory = _deleteInventory;
+        //listOfSelectedInventory = _listOfSelectedInventory;
+        //addInventoryForEvent = _addInventoryForEvent;
         inventoryForEvent = _inventoryForEvent;
+        errorStatus = _error;
     }
     @Override
     public void run() 
@@ -116,6 +118,10 @@ public class Event implements Runnable
                     id = id + ((String)ResponsibleForEvent.getSelectedItem()).charAt(i);
                     i++;
                 }
+                if((addGist.getText().length()) == 0 || (Type.getText().length() == 0))
+                {
+                    throw new SQLException();
+                }
                 statement.executeUpdate("INSERT INTO event (name,type,date,duration,gist,emploee_ID)"
                         + "VALUES ('" + Name.getText() + "','" + Type.getText() +
                         "','" + Date.getText() + "'," + Duration.getText() + ",'" +
@@ -133,6 +139,10 @@ public class Event implements Runnable
                     eventTable.setValueAt(rs.getInt(4), i, 3);
                     eventTable.setValueAt(Employee.getEmployee(rs.getInt(6), con), i, 4);
                     i++;
+                }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is successfully added");
                 }
             }
             else
@@ -163,15 +173,57 @@ public class Event implements Runnable
                     eventTable.setValueAt(Employee.getEmployee(rs.getInt(6), con), i, 4);
                     i++;
                 }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is recived");
+                }
             }
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
+            error = true;
+            switch(ex.getErrorCode())
+            {
+                case 1064:
+                {
+                    errorStatus.setText("You have not entered all the data");
+                    break;
+                }
+                case 1292:
+                {
+                    errorStatus.setText("Invalid date. Format date: yyyy-mm-dd");
+                    break;
+                }
+                case 1054:
+                {
+                    errorStatus.setText("You entered in the numeric keypad char");
+                    break;
+                }
+                case 1406:
+                {
+                    errorStatus.setText("You entered is too long a word");
+                    break;
+                }
+                case 1062:
+                {
+                    errorStatus.setText("This record already exists");
+                    break;
+                }
+                default:
+                    errorStatus.setText("You have not entered all the data");
+            }
         }
     }
     public static String getName()
     {
         return name;
     }
+    public static boolean getError()
+    {
+        return error;
+    }
+    public static void setError()
+    {
+        error = false;
+    } 
 }

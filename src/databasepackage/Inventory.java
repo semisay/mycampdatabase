@@ -4,8 +4,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -19,8 +17,10 @@ public class Inventory implements Runnable
     private JComboBox ResponsibleList;
     private JTable inventoryTable;
     private boolean addData;
+    private static boolean error;
+    private JTextField errorStatus;
     
-    Inventory(Connection connect, JTextField name, JTextField count, JComboBox resp, JTable inventory, boolean add)
+    Inventory(Connection connect, JTextField name, JTextField count, JComboBox resp, JTable inventory, boolean add,JTextField _error)
     {
         con = connect;
         Name = name;
@@ -28,6 +28,8 @@ public class Inventory implements Runnable
         ResponsibleList = resp;
         inventoryTable = inventory;
         addData = add;
+        error = false;
+        errorStatus = _error;
     }
     @Override
     public void run() 
@@ -47,6 +49,10 @@ public class Inventory implements Runnable
                     id = id + ((String)ResponsibleList.getSelectedItem()).charAt(i);
                     i++;
                 }
+                if(Name.getText().length() == 0)
+                {
+                    throw new SQLException();
+                }
                 statement.executeUpdate("INSERT INTO inventory (name,count,employee_ID)"
                         + "VALUES ('" + Name.getText() + "'," + Count.getText() + "," + id+")");
                 query = "select * from inventory having name = '" + Name.getText() + "'";
@@ -60,6 +66,10 @@ public class Inventory implements Runnable
                     inventoryTable.setValueAt(rs.getInt(2), i, 1);
                     inventoryTable.setValueAt(Employee.getEmployee(rs.getInt(3), con), i, 2);
                     i++;
+                }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is successfully added");
                 }
             }
             else
@@ -82,11 +92,53 @@ public class Inventory implements Runnable
                     inventoryTable.setValueAt(Employee.getEmployee(rs.getInt(3), con), i, 2);
                     i++;
                 }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is recived");
+                }
             }
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
+            error = true;
+            switch(ex.getErrorCode())
+            {
+                case 1064:
+                {
+                    errorStatus.setText("You have not entered all the data");
+                    break;
+                }
+                case 1292:
+                {
+                    errorStatus.setText("Invalid date. Format date: yyyy-mm-dd");
+                    break;
+                }
+                case 1054:
+                {
+                    errorStatus.setText("You entered in the numeric keypad char");
+                    break;
+                }
+                case 1406:
+                {
+                    errorStatus.setText("You entered is too long a word");
+                    break;
+                }
+                case 1062:
+                {
+                    errorStatus.setText("This record already exists");
+                    break;
+                }
+                default:
+                    errorStatus.setText("You have not entered all the data");
+            }
         }
     }
+    public static boolean getError()
+    {
+        return error;
+    }
+    public static void setError()
+    {
+        error = false;
+    }     
 }

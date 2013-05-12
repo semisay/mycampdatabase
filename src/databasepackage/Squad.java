@@ -34,10 +34,12 @@ public class Squad implements Runnable
     private JComboBox leaderList;
     private JTable squadTable;
     private boolean addData;
+    private static boolean error;
+    private JTextField errorStatus;
     
     Squad(Connection _con,JTextField _squadID, JTextField _squadName, JTextArea _mottoTo, 
             JTextArea _mottoFrom, JComboBox _educatorList, 
-            JComboBox _leaderList, JTable _squadTable, boolean _addData) 
+            JComboBox _leaderList, JTable _squadTable, boolean _addData,JTextField _error) 
     {
         con = _con;
         squadID = _squadID;
@@ -48,6 +50,7 @@ public class Squad implements Runnable
         leaderList = _leaderList;
         squadTable = _squadTable;
         addData = _addData;
+        errorStatus = _error;
     }
     @Override
     public void run() 
@@ -86,16 +89,28 @@ public class Squad implements Runnable
                 int i = 0;
                 String educatorID = "";
                 String leaderID = "";
+                if(educatorList.getModel().getSize() == 0)
+                {
+                    throw new SQLException();
+                }
                 while(((String)educatorList.getSelectedItem()).charAt(i) != '.' )
                 {
                     educatorID = educatorID + ((String)educatorList.getSelectedItem()).charAt(i);
                     i++;
                 }
                 i = 0;
+                if(leaderList.getModel().getSize() == 0)
+                {
+                    throw new SQLException();
+                }
                 while(((String)leaderList.getSelectedItem()).charAt(i) != '.' )
                 {
                     leaderID = leaderID + ((String)leaderList.getSelectedItem()).charAt(i);
                     i++;
+                }
+                if((squadName.getText().length() == 0) || (mottoTo.getText().length() == 0))
+                {
+                    throw new SQLException();
                 }
                 statement.executeUpdate("INSERT INTO squad (ID,name,motto,emploee_ID,leaderID)"
                         + "VALUES (" + squadID.getText() + ",'" + squadName.getText() + "','" 
@@ -113,6 +128,10 @@ public class Squad implements Runnable
                     squadTable.setValueAt(Employee.getEmployee(rs.getInt(4), con), i, 2);
                     squadTable.setValueAt(Employee.getEmployee(rs.getInt(5), con), i, 3);
                     i++;
+                }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is successfully added");
                 }
             }
             else
@@ -144,11 +163,53 @@ public class Squad implements Runnable
                     squadTable.setValueAt(Employee.getEmployee(rs.getInt(5), con), i, 3);
                     i++;
                 }
+                if(!error) 
+                {
+                    errorStatus.setText("Data is recived");
+                }
             }
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(Inventory.class.getName()).log(Level.SEVERE, null, ex);
+            error = true;
+            switch(ex.getErrorCode())
+            {
+                case 1064:
+                {
+                    errorStatus.setText("You have not entered all the data");
+                    break;
+                }
+                case 1292:
+                {
+                    errorStatus.setText("Invalid date. Format date: yyyy-mm-dd");
+                    break;
+                }
+                case 1054:
+                {
+                    errorStatus.setText("You entered in the numeric keypad char");
+                    break;
+                }
+                case 1406:
+                {
+                    errorStatus.setText("You entered is too long a word");
+                    break;
+                }
+                case 1062:
+                {
+                    errorStatus.setText("This record already exists");
+                    break;
+                }
+                default:
+                    errorStatus.setText("You have not entered all the data");
+            }
         }
     }
+    public static boolean getError()
+    {
+        return error;
+    }
+    public static void setError()
+    {
+        error = false;
+    } 
 }
