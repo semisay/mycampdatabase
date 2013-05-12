@@ -135,6 +135,7 @@ public class Client extends javax.swing.JFrame {
         jLabel46 = new javax.swing.JLabel();
         addParentStatus = new javax.swing.JTextField();
         jLabel52 = new javax.swing.JLabel();
+        jDialog2 = new javax.swing.JDialog();
         mainTabbedPane = new javax.swing.JTabbedPane();
         employeeTab = new javax.swing.JPanel();
         addEmployee = new javax.swing.JButton();
@@ -364,6 +365,17 @@ public class Client extends javax.swing.JFrame {
                     .addComponent(jLabel52)
                     .addComponent(addParentInformation))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 535, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 206, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1662,6 +1674,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

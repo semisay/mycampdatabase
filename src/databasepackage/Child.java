@@ -94,20 +94,35 @@ public class Child implements Runnable
                         {
                             contraindication.setText(rs.getString(1));
                         }
+                        if (Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) > 0) 
+                        {
+                            childInformation.setText("This child has " + 
+                                    String.valueOf(Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)))
+                                    + " parent(s):\n");
+                            query = "select * from parent where ID in (" + 
+                                    "select parent_ID from child_has_parent where child_ID = "
+                                    + String.valueOf(childTable.getValueAt(childTable.getSelectedRow(), 0)) + ")";
+                            rs = statement.executeQuery(query);
+                            int i = 0;
+                            while(rs.next())
+                            {
+                                childInformation.append(rs.getString(2) + " "
+                                        + rs.getString(3) + " "
+                                        + rs.getString(4) + "\nJob: "
+                                        + rs.getString(5) + "\nTelephone: "
+                                        + rs.getString(6) + "\n\n");
+                                i++;
+                            }
+
+                        }
+                        else
+                        {
+                            childInformation.setText("This child hasn't parent");
+                        }
                     } 
                     catch (SQLException ex) 
                     {
                         Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    if (Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)) > 0) 
-                    {
-                        childInformation.setText("This child has " + 
-                                String.valueOf(Parent.getParentCount(con,(Integer)childTable.getValueAt(childTable.getSelectedRow(), 0)))
-                                + " parent(s)");
-                    }
-                    else
-                    {
-                        childInformation.setText("This child hasn't parent");
                     }
                 }
             });
