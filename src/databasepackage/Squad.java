@@ -110,21 +110,21 @@ public class Squad implements Runnable
                 {
                     squadTable.setValueAt(rs.getInt(1), i, 0);
                     squadTable.setValueAt(rs.getString(2), i, 1);
-                    squadTable.setValueAt(rs.getInt(4), i, 2);
-                    squadTable.setValueAt(rs.getInt(5), i, 3);
+                    squadTable.setValueAt(Employee.getEmployee(rs.getInt(4), con), i, 2);
+                    squadTable.setValueAt(Employee.getEmployee(rs.getInt(5), con), i, 3);
                     i++;
                 }
             }
             else
             {
-                query = "select ID,Surname from employee where post = 'воспитатель' and ID !="
+                query = "select ID,Surname from employee where post = 'воспитатель' and ID NOT IN "
                         + "(select emploee_ID from squad)";
                 rs = statement.executeQuery(query);
                 while(rs.next())
                 {
                     educatorList.addItem(rs.getInt(1)+"."+rs.getString(2));
                 }
-                query = "select ID,Surname from employee where post = 'вожатый' and ID !="
+                query = "select ID,Surname from employee where post = 'вожатый' and ID NOT IN "
                         + "(select leaderID from squad)";
                 rs = statement.executeQuery(query);
                 while(rs.next())
@@ -140,8 +140,8 @@ public class Squad implements Runnable
                     myModel.addRow(new String[0]);
                     squadTable.setValueAt(rs.getInt(1), i, 0);
                     squadTable.setValueAt(rs.getString(2), i, 1);
-                    squadTable.setValueAt(rs.getInt(4), i, 2);
-                    squadTable.setValueAt(rs.getInt(5), i, 3);
+                    squadTable.setValueAt(Employee.getEmployee(rs.getInt(4), con), i, 2);
+                    squadTable.setValueAt(Employee.getEmployee(rs.getInt(5), con), i, 3);
                     i++;
                 }
             }

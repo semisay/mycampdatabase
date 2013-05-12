@@ -131,7 +131,7 @@ public class Event implements Runnable
                     eventTable.setValueAt(rs.getString(2), i, 1);
                     eventTable.setValueAt(rs.getDate(3), i, 2);
                     eventTable.setValueAt(rs.getInt(4), i, 3);
-                    eventTable.setValueAt(rs.getString(6), i, 4);
+                    eventTable.setValueAt(Employee.getEmployee(rs.getInt(6), con), i, 4);
                     i++;
                 }
             }
@@ -160,7 +160,7 @@ public class Event implements Runnable
                     eventTable.setValueAt(rs.getString(2), i, 1);
                     eventTable.setValueAt(rs.getDate(3), i, 2);
                     eventTable.setValueAt(rs.getInt(4), i, 3);
-                    eventTable.setValueAt(rs.getString(6), i, 4);
+                    eventTable.setValueAt(Employee.getEmployee(rs.getInt(6), con), i, 4);
                     i++;
                 }
             }

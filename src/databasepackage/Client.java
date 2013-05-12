@@ -67,7 +67,7 @@ public class Client extends javax.swing.JFrame {
                 logger = logger + "Connected\n";
                 Thread employee = new Thread(new Employee(con,employeeTable,
                 ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
-                Issuing_authority, Date_of_issue, Education, Post, Wages,false));
+                Issuing_authority, Date_of_issue, Education, postList, Wages,false));
                 Thread inventory = new Thread(new Inventory(con,nameInventory,countInventory,
                         responsibleComboBox, inventoryTable,false));
                 Thread event = new Thread(new Event(con,nameEvent,typeEvent,
@@ -133,10 +133,10 @@ public class Client extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         Education = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        Post = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         Wages = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        postList = new javax.swing.JComboBox();
         inventoryTab = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         nameInventory = new javax.swing.JTextField();
@@ -260,6 +260,8 @@ public class Client extends javax.swing.JFrame {
 
         jLabel12.setText("Wages");
 
+        postList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "воспитатель", "вожатый", "старший воспитатель", "физрук", "музрук", "директор", "врач" }));
+
         javax.swing.GroupLayout employeeTabLayout = new javax.swing.GroupLayout(employeeTab);
         employeeTab.setLayout(employeeTabLayout);
         employeeTabLayout.setHorizontalGroup(
@@ -284,14 +286,13 @@ public class Client extends javax.swing.JFrame {
                                 .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(jLabel10))
                         .addGap(21, 21, 21)
-                        .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11)
-                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7)
-                                .addComponent(Name, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Passport_Number)
-                                .addComponent(Post)))
+                            .addComponent(jLabel7)
+                            .addComponent(Name, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Passport_Number)
+                            .addComponent(postList, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
@@ -353,8 +354,8 @@ public class Client extends javax.swing.JFrame {
                         .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Date_of_issue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Education, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Post, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(postList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(employeeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
@@ -839,7 +840,7 @@ public class Client extends javax.swing.JFrame {
         
         Thread employee = new Thread(new Employee(con,employeeTable,
                 ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
-                Issuing_authority, Date_of_issue, Education, Post, Wages,true));
+                Issuing_authority, Date_of_issue, Education, postList, Wages,true));
         employee.start();
         try 
         {
@@ -851,13 +852,13 @@ public class Client extends javax.swing.JFrame {
         }
         responsibleComboBox.addItem(ID.getText()+"."+Surname.getText());
         responsibleForEventList.addItem(ID.getText()+"."+Surname.getText());
-        if (Post.getText().equals("вожатый")) 
+        if (postList.getSelectedItem().equals("вожатый")) 
         {
             leaderList.addItem(ID.getText()+"."+Surname.getText());
         }
         else
         {
-            if (Post.getText().equals("воспитатель")) 
+            if (postList.getSelectedItem().equals("воспитатель")) 
             {
                 educatorList.addItem(ID.getText()+"."+Surname.getText());
             }
@@ -872,7 +873,6 @@ public class Client extends javax.swing.JFrame {
         Issuing_authority.setText("");
         Date_of_issue.setText("");
         Education.setText("");
-        Post.setText("");
         Wages.setText("");
         
     }//GEN-LAST:event_addEmployeeActionPerformed
@@ -1080,7 +1080,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextField Passport_Number;
     private javax.swing.JTextField Passport_Series;
     private javax.swing.JTextField Patronymic;
-    private javax.swing.JTextField Post;
     private javax.swing.JTextField Surname;
     private javax.swing.JTextField Wages;
     private javax.swing.JButton addEmployee;
@@ -1159,6 +1158,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextField nameInventory;
     private javax.swing.JPanel orphanageTab;
     private javax.swing.JPanel parentTab;
+    private javax.swing.JComboBox postList;
     private javax.swing.JComboBox responsibleComboBox;
     private javax.swing.JComboBox responsibleForEventList;
     private javax.swing.JButton selectInventory;

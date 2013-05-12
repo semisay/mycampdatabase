@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +31,7 @@ public class Employee implements Runnable
     private JTextField Issuing_authority;
     private JTextField Date_of_issue;
     private JTextField Education;
-    private JTextField Post;
+    private JComboBox postList;
     private JTextField Wages;
     
     Employee(Connection connection,JTable emplTable, JTextField id, 
@@ -38,7 +39,7 @@ public class Employee implements Runnable
             JTextField patronymic, JTextField dob, JTextField passport_series,
             JTextField passport_number, JTextField issuing_authority,
             JTextField date_of_issuing, JTextField education,
-            JTextField post, JTextField wages, boolean fl)
+            JComboBox _postList, JTextField wages, boolean fl)
     {
         con = connection;
         employeeTable = emplTable;
@@ -53,7 +54,7 @@ public class Employee implements Runnable
         Issuing_authority = issuing_authority;
         Date_of_issue = date_of_issuing;
         Education = education;
-        Post = post;
+        postList = _postList;
         Wages = wages;
     }
     @Override
@@ -77,7 +78,7 @@ public class Employee implements Runnable
                            + " '" + Issuing_authority.getText() + "', "
                            + " '" + Date_of_issue.getText() + "', "
                            + " '" + Education.getText() + "', "
-                           + " '" + Post.getText() + "', "
+                           + " '" + (String)postList.getSelectedItem() + "', "
                            + Wages.getText() + ")");
                 String query = "select * from employee having ID = " + ID.getText();
                 rs = statement.executeQuery(query);
@@ -113,8 +114,10 @@ public class Employee implements Runnable
                     {
                         myModel.addRow(new String[0]);
                         employeeTable.setValueAt(rs.getInt(1), i, 0);
-                        if (rs.getInt(1) > maxID)
+                        if (rs.getInt(1) > maxID) 
+                        {
                             maxID = rs.getInt(1);
+                        }
                         employeeTable.setValueAt(rs.getString(2), i, 1);
                         employeeTable.setValueAt(rs.getString(3), i, 2);
                         employeeTable.setValueAt(rs.getString(4), i, 3);
@@ -140,5 +143,27 @@ public class Employee implements Runnable
         {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public static String getEmployee(int ID,Connection con)
+    {
+        try 
+        {
+            Statement statement = (Statement) con.createStatement();
+            ResultSet rs;
+            rs = statement.executeQuery("select Surname from employee where ID = " + String.valueOf(ID));
+            if(rs.next())
+            {
+                return rs.getString(1);
+            }
+            else
+            {
+                return null;
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

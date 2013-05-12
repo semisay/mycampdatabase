@@ -58,7 +58,7 @@ public class Inventory implements Runnable
                 {
                     inventoryTable.setValueAt(rs.getString(1), i, 0);
                     inventoryTable.setValueAt(rs.getInt(2), i, 1);
-                    inventoryTable.setValueAt(rs.getInt(3), i, 2);
+                    inventoryTable.setValueAt(Employee.getEmployee(rs.getInt(3), con), i, 2);
                     i++;
                 }
             }
@@ -79,7 +79,7 @@ public class Inventory implements Runnable
                     myModel.addRow(new String[0]);
                     inventoryTable.setValueAt(rs.getString(1), i, 0);
                     inventoryTable.setValueAt(rs.getInt(2), i, 1);
-                    inventoryTable.setValueAt(rs.getInt(3), i, 2);
+                    inventoryTable.setValueAt(Employee.getEmployee(rs.getInt(3), con), i, 2);
                     i++;
                 }
             }
