@@ -829,7 +829,7 @@ public class Client extends javax.swing.JFrame {
 
         jLabel40.setText("Medical group");
 
-        medicalGroupList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "основная", "специальная А", "специальная Б" }));
+        medicalGroupList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "основная", "спец. А", "спец. Б" }));
 
         jLabel41.setText("Squad");
 
@@ -1316,7 +1316,7 @@ public class Client extends javax.swing.JFrame {
             childDOB.setText("");
             childGrowth.setText("");
             childWeight.setText("");
-            contraindication.setText("");
+            addContraindication.setText("");
             childID.setText(String.valueOf(Integer.parseInt(childID.getText())+1));
         }
         else
