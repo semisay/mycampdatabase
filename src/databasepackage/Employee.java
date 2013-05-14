@@ -225,5 +225,5 @@ public class Employee implements Runnable
     public static void setError()
     {
         error = false;
-    }        
+    }
 }

@@ -20,7 +20,6 @@ public class Client extends javax.swing.JFrame {
     /**
      * Creates new form Client
      */
-    private String logger;
     private static String url = "jdbc:mysql://localhost/mycamp";
     private static String name = "root";
     private static String password = "lager";
@@ -60,17 +59,12 @@ public class Client extends javax.swing.JFrame {
     }
     private void getConnection()
     {
-        logger = "";
         try 
         {
             Class.forName("com.mysql.jdbc.Driver");
-            logger = logger + new java.util.Date().toString() + ":\n";
-            logger = logger + "Driver loading success!\n";
             try 
             {
                 con = (Connection) DriverManager.getConnection(url, name, password);
-                logger = logger + new java.util.Date().toString() + ":\n";
-                logger = logger + "Connected\n";
                 Thread employee = new Thread(new Employee(con,employeeTable,
                 ID, Surname, Name, Patronymic, DOB, Passport_Series, Passport_Number,
                 Issuing_authority, Date_of_issue, Education, postList, Wages,false,errorStatus));
@@ -95,21 +89,16 @@ public class Client extends javax.swing.JFrame {
                 inventory.start();
                 employee.start();
                 event.start();
-                logger = logger + new java.util.Date().toString() + ":\n";
-                logger = logger + "Disconnected\n";
             } 
             catch (SQLException e) 
             {
-                logger = logger + new java.util.Date().toString() + ":\n";
-                logger = logger + e.getMessage() + "\n";
+                System.out.println(e.getMessage());
             }
         } 
         catch (ClassNotFoundException e) 
         {
-            logger = logger + new java.util.Date().toString() + ":\n";
-            logger = logger + e.getMessage() + "\n";
+            System.out.println(e.getMessage());
         }
-        log.setText(logger);
     }
 
     /**
@@ -141,6 +130,32 @@ public class Client extends javax.swing.JFrame {
         existParentList = new javax.swing.JComboBox();
         jLabel53 = new javax.swing.JLabel();
         addExistParentInformation = new javax.swing.JButton();
+        editEmployeeDialog = new javax.swing.JDialog();
+        editEmployeeSurname = new javax.swing.JTextField();
+        editEmployeeName = new javax.swing.JTextField();
+        editEmployeePatronymic = new javax.swing.JTextField();
+        editEmployeeDOB = new javax.swing.JTextField();
+        editEmployeeSeries = new javax.swing.JTextField();
+        editEmployeeNumber = new javax.swing.JTextField();
+        editEmployeeIssuingAuth = new javax.swing.JTextField();
+        editEmployeeDateOfIssue = new javax.swing.JTextField();
+        editEmployeeEducation = new javax.swing.JTextField();
+        editPostList = new javax.swing.JComboBox();
+        editEmployeeWages = new javax.swing.JTextField();
+        editEmployee = new javax.swing.JButton();
+        editEmployeeStatus = new javax.swing.JTextField();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
         mainTabbedPane = new javax.swing.JTabbedPane();
         employeeTab = new javax.swing.JPanel();
         addEmployee = new javax.swing.JButton();
@@ -170,6 +185,7 @@ public class Client extends javax.swing.JFrame {
         Wages = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         postList = new javax.swing.JComboBox();
+        editEmployeeButton = new javax.swing.JButton();
         inventoryTab = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         nameInventory = new javax.swing.JTextField();
@@ -271,9 +287,6 @@ public class Client extends javax.swing.JFrame {
         jScrollPane15 = new javax.swing.JScrollPane();
         childrenList = new javax.swing.JTextArea();
         jLabel54 = new javax.swing.JLabel();
-        logTab = new javax.swing.JPanel();
-        logScrollPane = new javax.swing.JScrollPane();
-        log = new javax.swing.JTextArea();
         jLabel45 = new javax.swing.JLabel();
         errorStatus = new javax.swing.JTextField();
 
@@ -413,12 +426,140 @@ public class Client extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        editEmployeeDialog.setTitle("Edit employee");
+
+        editPostList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "воспитатель", "вожатый", "старший воспитатель", "физрук", "музрук", "директор", "врач" }));
+
+        editEmployee.setText("Edit");
+        editEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editEmployeeActionPerformed(evt);
+            }
+        });
+
+        jLabel55.setText("Surname");
+
+        jLabel56.setText("Name");
+
+        jLabel57.setText("Patronymic");
+
+        jLabel58.setText("DOB");
+
+        jLabel59.setText("Series");
+
+        jLabel60.setText("Number");
+
+        jLabel61.setText("Issuing auth");
+
+        jLabel62.setText("Date of issue");
+
+        jLabel63.setText("Education");
+
+        jLabel64.setText("Post");
+
+        jLabel65.setText("Wages");
+
+        jLabel66.setText("Status");
+
+        javax.swing.GroupLayout editEmployeeDialogLayout = new javax.swing.GroupLayout(editEmployeeDialog.getContentPane());
+        editEmployeeDialog.getContentPane().setLayout(editEmployeeDialogLayout);
+        editEmployeeDialogLayout.setHorizontalGroup(
+            editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editEmployeeDialogLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(editEmployeeDialogLayout.createSequentialGroup()
+                        .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(editEmployeeIssuingAuth, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                                .addComponent(editEmployeeSurname))
+                            .addComponent(jLabel55)
+                            .addComponent(jLabel61))
+                        .addGap(18, 18, 18)
+                        .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel56)
+                            .addComponent(jLabel62)
+                            .addComponent(editEmployeeDateOfIssue, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(editEmployeeName))
+                        .addGap(18, 18, 18)
+                        .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(editEmployeePatronymic)
+                                .addComponent(editEmployeeEducation, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                            .addComponent(jLabel57)
+                            .addComponent(jLabel63))
+                        .addGap(18, 18, 18)
+                        .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel58)
+                            .addComponent(jLabel64)
+                            .addComponent(editPostList, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editEmployeeDOB))
+                        .addGap(18, 18, 18)
+                        .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(editEmployeeDialogLayout.createSequentialGroup()
+                                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(editEmployeeSeries)
+                                    .addComponent(editEmployeeWages))
+                                .addGap(18, 18, 18)
+                                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel60)
+                                    .addComponent(editEmployeeNumber)
+                                    .addComponent(editEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+                            .addComponent(jLabel65)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, editEmployeeDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel66)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addComponent(editEmployeeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        editEmployeeDialogLayout.setVerticalGroup(
+            editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editEmployeeDialogLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel55)
+                    .addComponent(jLabel56)
+                    .addComponent(jLabel57)
+                    .addComponent(jLabel58)
+                    .addComponent(jLabel59)
+                    .addComponent(jLabel60))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editEmployeeSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeePatronymic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel61)
+                    .addComponent(jLabel62)
+                    .addComponent(jLabel63)
+                    .addComponent(jLabel64)
+                    .addComponent(jLabel65))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editEmployeeIssuingAuth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeDateOfIssue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeEducation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editPostList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployeeWages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEmployee))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(editEmployeeDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editEmployeeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel66))
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("myCamp");
         setLocationByPlatform(true);
         setResizable(false);
 
-        addEmployee.setText("addEmployee");
+        addEmployee.setText("Add employee");
         addEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEmployeeActionPerformed(evt);
@@ -471,6 +612,13 @@ public class Client extends javax.swing.JFrame {
 
         postList.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "воспитатель", "вожатый", "старший воспитатель", "физрук", "музрук", "директор", "врач" }));
 
+        editEmployeeButton.setText("Edit employee");
+        editEmployeeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editEmployeeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout employeeTabLayout = new javax.swing.GroupLayout(employeeTab);
         employeeTab.setLayout(employeeTabLayout);
         employeeTabLayout.setHorizontalGroup(
@@ -507,13 +655,15 @@ public class Client extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(jLabel4)
                             .addComponent(jLabel8)
-                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(addEmployee)
-                                .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Patronymic, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                                    .addComponent(Issuing_authority)))
+                            .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Patronymic, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                                .addComponent(Issuing_authority))
                             .addComponent(Wages, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, employeeTabLayout.createSequentialGroup()
+                        .addComponent(editEmployeeButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(addEmployee)))
                 .addContainerGap(404, Short.MAX_VALUE))
         );
         employeeTabLayout.setVerticalGroup(
@@ -557,7 +707,9 @@ public class Client extends javax.swing.JFrame {
                 .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(employeeTabLayout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(addEmployee))
+                        .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addEmployee)
+                            .addComponent(editEmployeeButton)))
                     .addGroup(employeeTabLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(employeeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1249,24 +1401,6 @@ public class Client extends javax.swing.JFrame {
 
         mainTabbedPane.addTab("Parent", parentTab);
 
-        log.setEditable(false);
-        log.setColumns(20);
-        log.setRows(5);
-        logScrollPane.setViewportView(log);
-
-        javax.swing.GroupLayout logTabLayout = new javax.swing.GroupLayout(logTab);
-        logTab.setLayout(logTabLayout);
-        logTabLayout.setHorizontalGroup(
-            logTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
-        );
-        logTabLayout.setVerticalGroup(
-            logTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-        );
-
-        mainTabbedPane.addTab("Log", logTab);
-
         jLabel45.setText("Status:");
         jLabel45.setToolTipText("");
 
@@ -1780,6 +1914,104 @@ public class Client extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addExistParentInformationActionPerformed
 
+    private void editEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEmployeeButtonActionPerformed
+        
+        boolean flag = false;
+        int n = employeeTable.getRowCount();
+        for (int i = 0; i < n; i++)
+        {
+            if(employeeTable.isRowSelected(i))
+            {
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            editEmployeeDialog.setSize(620, 230);
+            Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            int x = (int) ((screenSize.getWidth() - editEmployeeDialog.getWidth()) / 2);
+            if (x < 0) {
+                x = 0;
+            }
+            int y = (int) ((screenSize.getHeight() - editEmployeeDialog.getHeight()) / 2);
+            if (y < 0) {
+                y = 0;
+            }
+            editEmployeeDialog.setBounds(x, y, editEmployeeDialog.getWidth(), editEmployeeDialog.getHeight());
+            editEmployeeDialog.setVisible(true);
+            editEmployeeSurname.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 1)));
+            editEmployeeName.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 2)));
+            editEmployeePatronymic.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 3)));
+            editEmployeeDOB.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 4)));
+            editEmployeeSeries.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 5)));
+            editEmployeeNumber.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 6)));
+            editEmployeeIssuingAuth.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 7)));
+            editEmployeeDateOfIssue.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 8)));
+            editEmployeeEducation.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 9)));
+            editEmployeeWages.setText(String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 11)));
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You don't choose employee to edit");
+        }
+    }//GEN-LAST:event_editEmployeeButtonActionPerformed
+
+    private void editEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEmployeeActionPerformed
+        
+        try
+        {
+            Statement statement = (Statement) con.createStatement();
+            statement.executeUpdate("update employee "
+                    + "set surname = '" + editEmployeeSurname.getText() + "',"
+                    + "name = '" + editEmployeeName.getText() + "',"
+                    + "patronymic = '" + editEmployeePatronymic.getText() + "',"
+                    + "DOB = '" + editEmployeeDOB.getText() + "',"
+                    + "passport_series = '" + editEmployeeSeries.getText() + "',"
+                    + "passport_number = '" + editEmployeeNumber.getText() + "',"
+                    + "issuing_authority = '" + editEmployeeIssuingAuth.getText() + "',"
+                    + "date_of_issue = '" + editEmployeeDateOfIssue.getText() + "',"
+                    + "education = '" + editEmployeeEducation.getText() + "',"
+                    + "wages = " + editEmployeeWages.getText() +
+                    " where ID = " + String.valueOf(employeeTable.getValueAt(employeeTable.getSelectedRow(), 0)));
+             editEmployeeDialog.setVisible(false);
+        }
+        catch (SQLException ex) 
+        {
+            System.out.println(ex.getMessage());
+            switch(ex.getErrorCode())
+            {
+                case 1064:
+                {
+                    editEmployeeStatus.setText("You have not entered all the data");
+                    break;
+                }
+                case 1292:
+                {
+                    editEmployeeStatus.setText("Invalid date. Format date: yyyy-mm-dd");
+                    break;
+                }
+                case 1054:
+                {
+                    editEmployeeStatus.setText("You entered in the numeric keypad char");
+                    break;
+                }
+                case 1406:
+                {
+                    editEmployeeStatus.setText("You entered is too long a word");
+                    break;
+                }
+                case 1062:
+                {
+                    editEmployeeStatus.setText("This record already exists");
+                    break;
+                }
+                default:
+                    editEmployeeStatus.setText("You have not entered all the data");
+            }
+        }
+    }//GEN-LAST:event_editEmployeeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1861,6 +2093,21 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JTextField dateEvent;
     private javax.swing.JButton deleteInventory;
     private javax.swing.JTextField durationEvent;
+    private javax.swing.JButton editEmployee;
+    private javax.swing.JButton editEmployeeButton;
+    private javax.swing.JTextField editEmployeeDOB;
+    private javax.swing.JTextField editEmployeeDateOfIssue;
+    private javax.swing.JDialog editEmployeeDialog;
+    private javax.swing.JTextField editEmployeeEducation;
+    private javax.swing.JTextField editEmployeeIssuingAuth;
+    private javax.swing.JTextField editEmployeeName;
+    private javax.swing.JTextField editEmployeeNumber;
+    private javax.swing.JTextField editEmployeePatronymic;
+    private javax.swing.JTextField editEmployeeSeries;
+    private javax.swing.JTextField editEmployeeStatus;
+    private javax.swing.JTextField editEmployeeSurname;
+    private javax.swing.JTextField editEmployeeWages;
+    private javax.swing.JComboBox editPostList;
     private javax.swing.JComboBox educatorList;
     private javax.swing.JScrollPane employeeScrollPane;
     private javax.swing.JPanel employeeTab;
@@ -1927,7 +2174,19 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1950,9 +2209,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JComboBox leaderList;
     private javax.swing.JComboBox listOfInventoryForEvent;
     private javax.swing.JList listOfSelectedInventory;
-    private javax.swing.JTextArea log;
-    private javax.swing.JScrollPane logScrollPane;
-    private javax.swing.JPanel logTab;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JComboBox medicalGroupList;
     private javax.swing.JTextArea mottoFrom;
